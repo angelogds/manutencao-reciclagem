@@ -65,23 +65,8 @@ db.get('SELECT id FROM users WHERE email = ?', [ADMIN_EMAIL], (err,row)=>{
   }
 });
 
-// sync belts_seed.json if exists
-const seedPath = path.join(__dirname,'belts_seed.json');
-if(fs.existsSync(seedPath)){
-  try{
-    const seed = JSON.parse(fs.readFileSync(seedPath,'utf8'));
-    seed.forEach(item=>{
-      db.get('SELECT id FROM correias WHERE modelo = ?', [item.model], (e,row)=>{
-        if(row && row.id){
-          db.run('UPDATE correias SET quantidade = ?, minimo = ? WHERE id = ?', [item.stock || 0, 1, row.id]);
-        } else {
-          db.run('INSERT INTO correias (modelo, quantidade, minimo) VALUES (?,?,?)', [item.model, item.stock || 0, 1]);
-        }
-      });
-    });
-    console.log('Belts seed synchronized.');
-  } catch(e){ console.error('Seed parse error', e); }
-}
+// seed removido para Render Free
+
 
 // multer storage (compatible)
 const storage = multer.diskStorage({
