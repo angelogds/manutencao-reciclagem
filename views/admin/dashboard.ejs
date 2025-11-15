@@ -1,10 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/public/style.css">
+  </head>
+<body>
+  <%- include("../partials/cabecalho") %>
 
-<!DOCTYPE html><html><head><link rel='stylesheet' href='/public/style.css'></head>
-<body><%- include("../partials/cabecalho") %><div class='box'>
-<h2>Equipamentos</h2>
-<ul>
-<% equipamentos.forEach(e=>{ %>
-<li><%=e.nome%> — <a href="/funcionario/abrir_os?equip_id=<%=e.id%>">Abrir OS</a></li>
-<% }) %>
-</ul>
-</div></body></html>
+  <div class="box">
+    <h2>Painel Administrativo</h2>
+
+    <ul>
+      <li><a href="/admin/equipamentos">Gerenciar Equipamentos</a></li>
+      <li><a href="/admin/correias">Gerenciar Correias</a></li>
+      <li><a href="/admin/ordens">Ordens de Serviço</a></li>
+    </ul>
+  </div>
+
+</body>
+</html>
