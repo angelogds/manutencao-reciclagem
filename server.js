@@ -1,3 +1,6 @@
+// ------------------------------------------
+// IMPORTAÇÕES
+// ------------------------------------------
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
@@ -5,23 +8,32 @@ const multer = require("multer");
 const sqlite3 = require("sqlite3").verbose();
 const QRCode = require("qrcode");
 
-const app = express();   // <-- TEM QUE VIR AQUI EM CIMA
+// ------------------------------------------
+// CONFIGURAÇÕES DO EXPRESS
+// ------------------------------------------
+const app = express();
 
-// Configurações do Express
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+
 app.use("/public", express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Configuração do upload
+// Upload de arquivos temporários
 const upload = multer({ dest: "uploads/tmp/" });
 
-// Banco de dados
+// ------------------------------------------
+// BANCO DE DADOS
+// ------------------------------------------
+if (!fs.existsSync("uploads")) fs.mkdirSync("uploads", { recursive: true });
+if (!fs.existsSync("uploads/equipamentos")) fs.mkdirSync("uploads/equipamentos", { recursive: true });
+if (!fs.existsSync("uploads/ordens")) fs.mkdirSync("uploads/ordens", { recursive: true });
+if (!fs.existsSync("data")) fs.mkdirSync("data");
+
 const db = new sqlite3.Database("./data/database.sqlite");
 
-// Criar tabelas
 db.serialize(() => {
   db.run(`
     CREATE TABLE IF NOT EXISTS equipamentos (
@@ -33,20 +45,53 @@ db.serialize(() => {
       qr_code TEXT
     )
   `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS ordens_servico (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      equipamento_id INTEGER,
+      descricao TEXT,
+      foto_antes TEXT,
+      foto_depois TEXT,
+      status TEXT DEFAULT 'Aberta',
+      data_abertura DATETIME DEFAULT CURRENT_TIMESTAMP,
+      data_inicio DATETIME,
+      data_fechamento DATETIME
+    )
+  `);
+});
+
+// ------------------------------------------
+// ROTAS PRINCIPAIS
+// ------------------------------------------
+
+// Início → vai para login
+app.get("/", (req, res) => {
+  res.redirect("/admin/login");
+});
+
+// Tela de login
+app.get("/admin/login", (req, res) => {
+  res.render("admin/login");
+});
+
+// Dashboard básico
+app.get("/admin/dashboard", (req, res) => {
+  res.render("admin/dashboard");
 });
 
 // ------------------------------------------
 // ROTAS DE EQUIPAMENTOS
 // ------------------------------------------
 
-// Listar todos os equipamentos no painel admin
+// Listar equipamentos
 app.get("/admin/equipamentos", (req, res) => {
   db.all("SELECT * FROM equipamentos ORDER BY nome ASC", [], (err, rows) => {
     res.render("admin/equipamentos", { equipamentos: rows || [] });
   });
 });
 
-// Tela para cadastrar novo equipamento
+// Tela de cadastro
 app.get("/admin/equipamentos/novo", (req, res) => {
   res.render("admin/equipamentos_novo");
 });
@@ -54,7 +99,7 @@ app.get("/admin/equipamentos/novo", (req, res) => {
 // Upload de foto
 const uploadEquip = upload.single("foto");
 
-// Salvar novo equipamento
+// Salvar equipamento
 app.post("/admin/equipamentos/novo", uploadEquip, (req, res) => {
   const { nome, setor, correias_utilizadas } = req.body;
 
@@ -66,7 +111,6 @@ app.post("/admin/equipamentos/novo", uploadEquip, (req, res) => {
     foto_path = dest;
   }
 
-  // Inserir no banco
   db.run(
     "INSERT INTO equipamentos (nome, setor, correias_utilizadas, foto_path) VALUES (?, ?, ?, ?)",
     [nome, setor, correias_utilizadas || 0, foto_path],
@@ -74,6 +118,7 @@ app.post("/admin/equipamentos/novo", uploadEquip, (req, res) => {
       if (err) return res.send("Erro ao salvar equipamento: " + err.message);
 
       const novoId = this.lastID;
+
       const qrConteudo = `${req.protocol}://${req.get("host")}/funcionario/abrir_os?equip_id=${novoId}`;
       const qrPath = `uploads/equipamentos/qrcode_${novoId}.png`;
 
@@ -87,5 +132,21 @@ app.post("/admin/equipamentos/novo", uploadEquip, (req, res) => {
     }
   );
 });
+
+// ------------------------------------------
+// ROTAS DO FUNCIONÁRIO (ABRIR OS)
+// ------------------------------------------
+
+app.get("/funcionario/abrir_os", (req, res) => {
+  const id = req.query.equip_id;
+
+  db.get("SELECT * FROM equipamentos WHERE id=?", [id], (err, row) => {
+    res.render("funcionario/abrir_os", { equip: row });
+  });
+});
+
+// ------------------------------------------
+// SERVIDOR
+// ------------------------------------------
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => console.log("Rodando na porta", PORT));
