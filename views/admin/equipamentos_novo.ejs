@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/public/style.css">
+  </head>
+<body>
+  <%- include("../partials/cabecalho") %>
+
+  <div class="box">
+    <h2>Cadastrar novo equipamento</h2>
+
+    <form method="POST" action="/admin/equipamentos/novo" enctype="multipart/form-data">
+
+      <label>Nome do equipamento:</label>
+      <input type="text" name="nome" required>
+
+      <label>Setor:</label>
+      <input type="text" name="setor" required>
+
+      <label>Qtd. Correias utilizadas:</label>
+      <input type="number" name="correias_utilizadas" min="0">
+
+      <label>Foto do equipamento:</label>
+      <input type="file" name="foto">
+
+      <button type="submit">Salvar</button>
+    </form>
+
+  </div>
+
+</body>
+</html>
