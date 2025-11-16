@@ -1,52 +1,24 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Abrir Ordem de Serviço</title>
-  <link rel="stylesheet" href="/public/style.css">
-</head>
-<body>
-  <% include ../partials/cabecalho.ejs %>
+<%- include("../partials/cabecalho") %>
 
-  <main class="container">
-    <h1>🛠️ Abrir Ordem de Serviço</h1>
+<h2>Abrir Ordem de Serviço</h2>
 
-    <% if (!equip) { %>
-      <p>Equipamento não encontrado.</p>
-    <% } else { %>
-      <section class="equip-info">
-        <h2>Equipamento Selecionado</h2>
-        <p><strong>ID:</strong> <%= equip.id %></p>
-        <p><strong>Nome:</strong> <%= equip.nome %></p>
-        <p><strong>Setor:</strong> <%= equip.setor %></p>
-        <p><strong>Correias Utilizadas:</strong> <%= equip.correias_utilizadas %></p>
+<form action="/funcionario/abrir_os" method="POST" enctype="multipart/form-data">
+  <!-- ID do equipamento (vem via query string) -->
+  <input type="hidden" name="equip_id" value="<%= equip_id %>">
 
-        <% if (equip.foto_path) { %>
-          <img src="/<%= equip.foto_path %>" alt="Foto do equipamento" width="150">
-        <% } %>
-      </section>
+  <div>
+    <label for="descricao">Descrição do problema:</label>
+    <textarea id="descricao" name="descricao" rows="4" required></textarea>
+  </div>
 
-      <section class="abrir-os-form">
-        <h2>Registrar Ordem de Serviço</h2>
-        <form action="/funcionario/abrir_os" method="POST" enctype="multipart/form-data" class="formulario">
-          <input type="hidden" name="equipamento_id" value="<%= equip.id %>">
+  <div>
+    <label for="foto_antes">Foto Antes da Manutenção:</label>
+    <input type="file" id="foto_antes" name="foto_antes" accept="image/*">
+  </div>
 
-          <div class="form-group">
-            <label for="descricao">Descrição do problema:</label>
-            <textarea id="descricao" name="descricao" rows="4" required></textarea>
-          </div>
+  <button type="submit">Abrir OS</button>
+</form>
 
-          <div class="form-group">
-            <label for="foto_antes">Foto antes da manutenção:</label>
-            <input type="file" id="foto_antes" name="foto_antes" accept="image/*">
-          </div>
+<a href="/admin/ordens">← Voltar para lista de ordens</a>
 
-          <button type="submit" class="btn">Abrir OS</button>
-        </form>
-      </section>
-    <% } %>
-  </main>
-
-  <% include ../partials/rodape.ejs %>
-</body>
-</html>
+<%- include("../partials/rodape") %>
