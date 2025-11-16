@@ -1,60 +1,29 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Equipamentos - Admin</title>
-  <link rel="stylesheet" href="/public/style.css">
-</head>
-<body>
-  <% include ../partials/cabecalho.ejs %>
+<%- include("../partials/cabecalho") %>
 
-  <main class="container">
-    <h1>📦 Lista de Equipamentos</h1>
+<h2>Equipamentos</h2>
+<a href="/admin/equipamentos/novo">+ Novo Equipamento</a>
 
-    <p><a href="/admin/equipamentos/novo" class="btn">➕ Cadastrar Novo Equipamento</a></p>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Nome</th>
+    <th>Descrição</th>
+    <th>Foto</th>
+  </tr>
+  <% equipamentos.forEach(equip => { %>
+    <tr>
+      <td><%= equip.id %></td>
+      <td><%= equip.nome %></td>
+      <td><%= equip.descricao %></td>
+      <td>
+        <% if (equip.foto) { %>
+          <img src="/<%= equip.foto %>" alt="Foto do equipamento" width="120">
+        <% } else { %>
+          Sem foto
+        <% } %>
+      </td>
+    </tr>
+  <% }) %>
+</table>
 
-    <% if (equipamentos.length === 0) { %>
-      <p>Nenhum equipamento cadastrado ainda.</p>
-    <% } else { %>
-      <table class="tabela">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Setor</th>
-            <th>Correias Utilizadas</th>
-            <th>Foto</th>
-            <th>QR Code</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% equipamentos.forEach(equip => { %>
-            <tr>
-              <td><%= equip.id %></td>
-              <td><%= equip.nome %></td>
-              <td><%= equip.setor %></td>
-              <td><%= equip.correias_utilizadas %></td>
-              <td>
-                <% if (equip.foto_path) { %>
-                  <img src="/<%= equip.foto_path %>" alt="Foto" width="80">
-                <% } else { %>
-                  -
-                <% } %>
-              </td>
-              <td>
-                <% if (equip.qr_code) { %>
-                  <img src="/<%= equip.qr_code %>" alt="QR Code" width="80">
-                <% } else { %>
-                  -
-                <% } %>
-              </td>
-            </tr>
-          <% }) %>
-        </tbody>
-      </table>
-    <% } %>
-  </main>
-
-  <% include ../partials/rodape.ejs %>
-</body>
-</html>
+<%- include("../partials/rodape") %>
