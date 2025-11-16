@@ -171,6 +171,21 @@ app.post("/funcionario/abrir_os", uploadOS, (req, res) => {
     }
   );
 });
+// ------------------------------------------
+// LISTAR ORDENS DE SERVIÇO
+// ------------------------------------------
+app.get("/admin/ordens", (req, res) => {
+  db.all(
+    `SELECT o.*, e.nome AS equipamento_nome
+     FROM ordens_servico o 
+     LEFT JOIN equipamentos e ON e.id = o.equipamento_id
+     ORDER BY o.data_abertura DESC`,
+    [],
+    (err, rows) => {
+      res.render("admin/ordens", { ordens: rows || [] });
+    }
+  );
+});
 
 // ------------------------------------------
 // SERVIDOR
