@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride("_method"));
 app.use(express.static("public"));
+app.use("/uploads", express.static("uploads"));
 
 // Sessão
 app.use(
