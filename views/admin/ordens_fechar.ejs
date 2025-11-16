@@ -1,0 +1,26 @@
+<%- include("../partials/cabecalho") %>
+
+<h2>Fechar Ordem de Serviço</h2>
+
+<form action="/admin/ordens/<%= ordem.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+  <div>
+    <label for="tecnico_nome">Nome do Técnico:</label>
+    <input type="text" id="tecnico_nome" name="tecnico_nome" value="<%= ordem.tecnico_nome || '' %>" required>
+  </div>
+
+  <div>
+    <label for="descricao">Descrição do serviço realizado:</label>
+    <textarea id="descricao" name="descricao" rows="4" required><%= ordem.descricao || '' %></textarea>
+  </div>
+
+  <div>
+    <label for="foto_depois">Foto Depois da Manutenção:</label>
+    <input type="file" id="foto_depois" name="foto_depois" accept="image/*">
+  </div>
+
+  <button type="submit">Fechar OS</button>
+</form>
+
+<a href="/admin/ordens">← Voltar para lista de ordens</a>
+
+<%- include("../partials/rodape") %>
