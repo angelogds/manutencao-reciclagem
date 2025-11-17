@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard - Admin</title>
-  <link rel="stylesheet" href="/public/style.css">
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <% include ../partials/cabecalho.ejs %>
 
   <main class="container">
-    <h1>Bem-vindo, <%= usuario.nome %> 👋</h1>
+    <h1>Bem-vindo, <%= usuario?.nome || "Administrador" %> 👋</h1>
 
     <section class="atalhos">
       <h2>Atalhos Rápidos</h2>
