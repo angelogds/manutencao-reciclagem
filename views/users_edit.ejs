@@ -1,0 +1,25 @@
+<% layout('layout', { title: "Editar Usuário", active: "users" }) %>
+
+<h1 class="page-title">Editar Usuário</h1>
+
+<% if (error) { %>
+    <div class="alert error"><%= error %></div>
+<% } %>
+
+<form method="POST" action="/users/<%= user.id %>/edit" class="form-card">
+
+    <label>Usuário</label>
+    <input value="<%= user.usuario %>" disabled>
+
+    <label>Nome</label>
+    <input name="nome" value="<%= user.nome %>" required>
+
+    <label>Função</label>
+    <select name="role">
+        <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Administrador</option>
+        <option value="funcionario" <%= user.role === 'funcionario' ? 'selected' : '' %>>Funcionário</option>
+        <option value="operador" <%= user.role === 'operador' ? 'selected' : '' %>>Operador</option>
+    </select>
+
+    <button class="btn-save">Salvar Alterações</button>
+</form>
