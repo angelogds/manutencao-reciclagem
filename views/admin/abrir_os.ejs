@@ -1,0 +1,27 @@
+<h1 class="page-title">Abrir OS</h1>
+
+<div class="card">
+<form method="POST">
+
+<label>Equipamento</label>
+<select name="equipamento_id">
+<option value="">Nenhum</option>
+<% equipamentos.forEach(e => { %>
+<option value="<%= e.id %>"><%= e.nome %></option>
+<% }) %>
+</select>
+
+<label>Solicitante</label>
+<input name="solicitante" required>
+
+<label>Tipo</label>
+<input name="tipo" required>
+
+<label>Descrição</label>
+<textarea name="descricao" required></textarea>
+
+<br>
+<button class="btn btn-green">Abrir</button>
+
+</form>
+</div>
