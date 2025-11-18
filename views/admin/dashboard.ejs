@@ -1,103 +1,207 @@
+<!-- Título da página -->
 <h1 class="page-title">Dashboard</h1>
 
-<!-- CARDS SUPERIORES -->
-<div class="cards-row">
+<!-- ===================== CARDS ===================== -->
+<div class="dashboard-cards">
 
-    <div class="card card-green">
-        <h3>Equipamentos</h3>
+    <!-- Card 1 -->
+    <div class="card">
+        <h3>Total de Equipamentos</h3>
         <p class="card-number"><%= totais.equipamentos %></p>
     </div>
 
-    <div class="card card-orange">
+    <!-- Card 2 -->
+    <div class="card">
         <h3>OS Abertas</h3>
-        <p class="card-number"><%= totais.abertas %></p>
+        <p class="card-number orange"><%= totais.abertas %></p>
     </div>
 
-    <div class="card card-blue">
+    <!-- Card 3 -->
+    <div class="card">
         <h3>OS Fechadas</h3>
-        <p class="card-number"><%= totais.fechadas %></p>
+        <p class="card-number green"><%= totais.fechadas %></p>
     </div>
 
 </div>
 
-<hr class="divider">
-
-<!-- GRÁFICOS -->
-<div class="charts-row">
+<!-- ===================== GRÁFICOS ===================== -->
+<div class="charts-container">
 
     <div class="chart-box">
-        <h3>Tipos de OS</h3>
-        <canvas id="graficoTipos"></canvas>
+        <h3>OS por Tipo</h3>
+        <canvas id="graficoPizza"></canvas>
     </div>
 
     <div class="chart-box">
-        <h3>OS por mês</h3>
-        <canvas id="graficoMes"></canvas>
+        <h3>OS por Mês</h3>
+        <canvas id="graficoBarras"></canvas>
     </div>
 
 </div>
 
-<hr class="divider">
+<!-- ===================== ÚLTIMAS ORDENS ===================== -->
+<h2 class="section-title">Últimas Ordens</h2>
 
-<!-- ÚLTIMAS OS -->
-<h2 class="sub-title">Últimas Ordens de Serviço</h2>
+<table class="tabela-os">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Equipamento</th>
+            <th>Solicitante</th>
+            <th>Status</th>
+            <th>Data</th>
+        </tr>
+    </thead>
 
-<table class="tabela tabela-dashboard">
-    <tr>
-        <th>ID</th>
-        <th>Equipamento</th>
-        <th>Tipo</th>
-        <th>Status</th>
-        <th>Abertura</th>
-    </tr>
-
-    <% ultimas.forEach(o => { %>
-    <tr>
-        <td><%= o.id %></td>
-        <td><%= o.equipamento_nome || "-" %></td>
-        <td><%= o.tipo || "-" %></td>
-
-        <td>
-            <% if (o.status === "aberta") { %>
-                <span class="tag aberta">Aberta</span>
-            <% } else { %>
-                <span class="tag fechada">Fechada</span>
-            <% } %>
-        </td>
-
-        <td><%= o.aberta_em %></td>
-    </tr>
-    <% }) %>
+    <tbody>
+        <% if (ultimas.length === 0) { %>
+            <tr>
+                <td colspan="5" class="no-data">Nenhuma OS encontrada.</td>
+            </tr>
+        <% } else { %>
+            <% ultimas.forEach(os => { %>
+                <tr>
+                    <td><%= os.id %></td>
+                    <td><%= os.equipamento_nome || "-" %></td>
+                    <td><%= os.solicitante %></td>
+                    <td class="<%= os.status === 'aberta' ? 'status-aberta' : 'status-fechada' %>">
+                        <%= os.status %>
+                    </td>
+                    <td><%= os.aberta_em %></td>
+                </tr>
+            <% }) %>
+        <% } %>
+    </tbody>
 </table>
 
-<!-- SCRIPT PARA OS GRÁFICOS -->
-<script>
-    // GRÁFICO DE TIPOS
-    const ctx1 = document.getElementById('graficoTipos');
+<!-- ===================== SCRIPTS DO DASHBOARD ===================== -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    new Chart(ctx1, {
+<script>
+    // ---------- Pizza ----------
+    const tipos = <%- JSON.stringify(tipos) %>;
+    const labelsPizza = tipos.map(t => t.tipo);
+    const valuesPizza = tipos.map(t => t.total);
+
+    new Chart(document.getElementById('graficoPizza'), {
         type: 'pie',
         data: {
-            labels: [
-                <% tipos.forEach(t => { %> "<%= t.tipo %>", <% }) %>
-            ],
+            labels: labelsPizza,
             datasets: [{
-                data: [
-                    <% tipos.forEach(t => { %> <%= t.total %>, <% }) %>
-                ],
-                backgroundColor: ["#27ae60", "#3498db", "#e67e22", "#9b59b6", "#e74c3c", "#16a085"]
+                data: valuesPizza,
+                backgroundColor: ["#4CAF50", "#8BC34A", "#CDDC39", "#FFC107", "#FF5722"]
             }]
         }
     });
 
-    // GRÁFICO POR MÊS
-    const ctx2 = document.getElementById('graficoMes');
+    // ---------- Barras ----------
+    const meses = <%- JSON.stringify(porMes) %>;
+    const labelsBarras = meses.map(m => m.mes);
+    const valuesBarras = meses.map(m => m.total);
 
-    new Chart(ctx2, {
+    new Chart(document.getElementById('graficoBarras'), {
         type: 'bar',
         data: {
-            labels: [
-                <% porMes.forEach(m => { %> "<%= m.mes %>", <% }) %>
-            ],
+            labels: labelsBarras,
             datasets: [{
-                la
+                label: "OS por mês",
+                data: valuesBarras,
+                backgroundColor: "#4CAF50"
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+</script>
+
+<style>
+/* ===================== ESTILOS ===================== */
+
+.page-title {
+    color: #2e7d32;
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.dashboard-cards {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 35px;
+}
+
+.card {
+    flex: 1;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.1);
+    text-align: center;
+}
+
+.card h3 {
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.card-number {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+}
+
+.card-number.green { color: #2e7d32; }
+.card-number.orange { color: #e65100; }
+
+.charts-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.chart-box {
+    flex: 1;
+    background: #fff;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.1);
+}
+
+.section-title {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.tabela-os {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.tabela-os th {
+    background: #2e7d32;
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+
+.tabela-os td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.status-aberta { color: #e65100; font-weight: bold; }
+.status-fechada { color: #2e7d32; font-weight: bold; }
+
+.no-data {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+}
+</style>
