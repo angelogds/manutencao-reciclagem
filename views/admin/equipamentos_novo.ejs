@@ -1,3 +1,29 @@
-<% layout('layout', { title: "Ordens", active: "ordens" }) %>
+<h1 class="page-title"><%= equipamento ? "Editar Equipamento" : "Novo Equipamento" %></h1>
 
-<h1>Novo Equipamento</h1>
+<div class="card">
+<form method="POST" enctype="multipart/form-data">
+
+<label>Nome</label>
+<input name="nome" value="<%= equipamento?.nome || '' %>" required>
+
+<label>Código</label>
+<input name="codigo" value="<%= equipamento?.codigo || '' %>">
+
+<label>Local</label>
+<input name="local" value="<%= equipamento?.local || '' %>">
+
+<label>Descrição</label>
+<textarea name="descricao"><%= equipamento?.descricao || '' %></textarea>
+
+<label>Imagem</label>
+<input type="file" name="imagem">
+
+<% if (equipamento?.imagem) { %>
+  <img src="/<%= equipamento.imagem %>" width="150" style="margin-top:10px;border-radius:6px">
+<% } %>
+
+<br><br>
+
+<button class="btn btn-green">Salvar</button>
+</form>
+</div>
