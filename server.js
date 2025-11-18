@@ -16,6 +16,7 @@ const DB_FILE = path.join(__dirname, 'database.sqlite');
 // ========== MIDDLEWARE ==========
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
+app.set('trust proxy', 1); // Railway usa proxy
 
 // EJS + Layouts
 app.set('view engine', 'ejs');
