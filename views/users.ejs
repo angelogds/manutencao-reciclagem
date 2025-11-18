@@ -1,28 +1,42 @@
-<% /* views/users.ejs */ %>
-<h1 class="page-title">Usuários</h1>
+<% layout('layout', { title: "Usuários", active: "users" }) %>
 
-<a href="/users/new" class="btn btn-green">+ Novo Usuário</a>
+<h1 class="page-title">Usuários do Sistema</h1>
 
-<div class="card">
-  <table class="table">
-    <thead>
-      <tr><th>ID</th><th>Usuário</th><th>Nome</th><th>Role</th><th>Ações</th></tr>
-    </thead>
-    <tbody>
-      <% users.forEach(u => { %>
+<a href="/users/new" class="btn-add">+ Novo Usuário</a>
+
+<table class="tabela">
+    <tr>
+        <th>ID</th>
+        <th>Usuário</th>
+        <th>Nome</th>
+        <th>Função</th>
+        <th>Ações</th>
+    </tr>
+
+    <% users.forEach(u => { %>
         <tr>
-          <td><%= u.id %></td>
-          <td><%= u.usuario %></td>
-          <td><%= u.nome %></td>
-          <td><%= u.role %></td>
-          <td>
-            <a href="/users/<%= u.id %>/edit" class="btn-table btn-edit">Editar</a>
-            <form method="POST" action="/users/<%= u.id %>/delete" style="display:inline">
-              <button class="btn-table btn-delete" onclick="return confirm('Excluir usuário?')">Excluir</button>
-            </form>
-          </td>
+            <td><%= u.id %></td>
+            <td><%= u.usuario %></td>
+            <td><%= u.nome || "-" %></td>
+            <td>
+                <% if (u.role === "admin") { %>
+                    <span class="tag admin">Admin</span>
+                <% } else if (u.role === "funcionario") { %>
+                    <span class="tag func">Funcionário</span>
+                <% } else { %>
+                    <span class="tag operador">Operador</span>
+                <% } %>
+            </td>
+
+            <td>
+                <a href="/users/<%= u.id %>/edit" class="btn-edit">Editar</a>
+
+                <form method="POST" action="/users/<%= u.id %>/delete" style="display:inline;"
+                      onsubmit="return confirm('Excluir este usuário?')">
+                    <button class="btn-del">Excluir</button>
+                </form>
+            </td>
         </tr>
-      <% }) %>
-    </tbody>
-  </table>
-</div>
+    <% }) %>
+</table>
+
