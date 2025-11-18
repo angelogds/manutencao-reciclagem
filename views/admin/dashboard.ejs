@@ -1,20 +1,24 @@
-<!-- views/admin/dashboard.ejs -->
+<%
+    // Variáveis enviadas para o layout
+    const title = "Dashboard";
+    const active = "dashboard";
+%>
 
 <h1 class="page-title">Dashboard</h1>
 
 <div class="cards-container">
 
-    <div class="card">
+    <div class="card card-green">
         <h3>Total de Equipamentos</h3>
         <p class="card-number"><%= totais.equipamentos %></p>
     </div>
 
-    <div class="card">
+    <div class="card card-blue">
         <h3>OS Abertas</h3>
         <p class="card-number"><%= totais.abertas %></p>
     </div>
 
-    <div class="card">
+    <div class="card card-orange">
         <h3>OS Fechadas</h3>
         <p class="card-number"><%= totais.fechadas %></p>
     </div>
@@ -25,29 +29,32 @@
 
 <h2>Últimas Ordens de Serviço</h2>
 
-<table class="table">
+<table class="tabela">
     <thead>
         <tr>
             <th>ID</th>
             <th>Equipamento</th>
             <th>Tipo</th>
             <th>Status</th>
-            <th>Data</th>
+            <th>Abertura</th>
         </tr>
     </thead>
+
     <tbody>
         <% ultimas.forEach(item => { %>
             <tr>
                 <td><%= item.id %></td>
                 <td><%= item.equipamento_nome || '-' %></td>
-                <td><%= item.tipo %></td>
+                <td><%= item.tipo || "-" %></td>
+
                 <td>
                     <% if (item.status === 'aberta') { %>
-                        <span class="status-open">Aberta</span>
+                        <span class="tag aberta">Aberta</span>
                     <% } else { %>
-                        <span class="status-closed">Fechada</span>
+                        <span class="tag fechada">Fechada</span>
                     <% } %>
                 </td>
+
                 <td><%= item.aberta_em %></td>
             </tr>
         <% }) %>
