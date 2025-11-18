@@ -1,27 +1,33 @@
-<h1 class="page-title">Abrir OS</h1>
+<% layout('layout', { title: "Nova OS", active: "ordens" }) %>
 
-<div class="card">
-<form method="POST">
+<h1 class="page-title">Abrir Nova Ordem de Serviço</h1>
 
-<label>Equipamento</label>
-<select name="equipamento_id">
-<option value="">Nenhum</option>
-<% equipamentos.forEach(e => { %>
-<option value="<%= e.id %>"><%= e.nome %></option>
-<% }) %>
-</select>
+<form method="POST" action="/ordens" class="form-card">
 
-<label>Solicitante</label>
-<input name="solicitante" required>
+    <label>Equipamento</label>
+    <select name="equipamento_id" required>
+        <option value="">Selecione</option>
+        <% equipamentos.forEach(e => { %>
+            <option value="<%= e.id %>"><%= e.nome %></option>
+        <% }) %>
+    </select>
 
-<label>Tipo</label>
-<input name="tipo" required>
+    <label>Solicitante</label>
+    <input name="solicitante" required>
 
-<label>Descrição</label>
-<textarea name="descricao" required></textarea>
+    <label>Tipo da OS</label>
+    <select name="tipo" required>
+        <option value="">Selecione</option>
+        <option value="Mecânica">Mecânica</option>
+        <option value="Elétrica">Elétrica</option>
+        <option value="Hidráulica">Hidráulica</option>
+        <option value="Preventiva">Preventiva</option>
+        <option value="Corretiva">Corretiva</option>
+        <option value="Outra">Outra</option>
+    </select>
 
-<br>
-<button class="btn btn-green">Abrir</button>
+    <label>Descrição do Problema</label>
+    <textarea name="descricao" rows="4" required></textarea>
 
+    <button class="btn-save">Abrir OS</button>
 </form>
-</div>
