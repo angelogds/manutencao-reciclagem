@@ -1,4 +1,8 @@
-<% layout('layout', { title: "Detalhes da OS", active: "ordens" }) %>
+<%
+    // Variáveis usadas no layout
+    const title = `Detalhes da OS #${ordem.id}`;
+    const active = "ordens";
+%>
 
 <h1 class="page-title">Ordem de Serviço #<%= ordem.id %></h1>
 
@@ -7,6 +11,7 @@
     <p><strong>Equipamento:</strong> <%= ordem.equipamento_nome || "-" %> (<%= ordem.equipamento_codigo || "-" %>)</p>
     <p><strong>Solicitante:</strong> <%= ordem.solicitante || "-" %></p>
     <p><strong>Tipo:</strong> <%= ordem.tipo || "-" %></p>
+
     <p><strong>Status:</strong> 
         <% if (ordem.status === "aberta") { %>
             <span class="tag aberta">Aberta</span>
@@ -14,6 +19,7 @@
             <span class="tag fechada">Fechada</span>
         <% } %>
     </p>
+
     <p><strong>Abertura:</strong> <%= ordem.aberta_em %></p>
 
     <h3>Descrição:</h3>
