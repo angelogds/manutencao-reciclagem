@@ -30,10 +30,7 @@
 
             <td>
                 <a href="/equipamentos/<%= e.id %>/editar" class="btn-edit">Editar</a>
-
-                <a href="/equipamentos/<%= e.id %>/qrcode" class="btn-qr">
-                    <i class="fa-solid fa-qrcode"></i>
-                </a>
+                <a href="/equipamentos/<%= e.id %>/qrcode" class="btn-qr"><i class="fa-solid fa-qrcode"></i></a>
 
                 <form method="POST" action="/equipamentos/<%= e.id %>/delete"
                       style="display:inline;" onsubmit="return confirm('Excluir este equipamento?')">
