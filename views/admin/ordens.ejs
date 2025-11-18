@@ -1,4 +1,8 @@
-<% layout('layout', { title: "Ordens de Serviço", active: "ordens" }) %>
+<%
+    // Variáveis usadas no layout
+    const title = "Ordens de Serviço";
+    const active = "ordens";
+%>
 
 <h1 class="page-title">Ordens de Serviço</h1>
 
@@ -18,23 +22,4 @@
     <% ordens.forEach(o => { %>
         <tr>
             <td><%= o.id %></td>
-            <td><%= o.equipamento_nome || "-" %></td>
-            <td><%= o.solicitante || "-" %></td>
-            <td><%= o.tipo || "-" %></td>
-
-            <td>
-                <% if (o.status === "aberta") { %>
-                    <span class="tag aberta">Aberta</span>
-                <% } else { %>
-                    <span class="tag fechada">Fechada</span>
-                <% } %>
-            </td>
-
-            <td><%= o.aberta_em %></td>
-
-            <td>
-                <a href="/ordens/<%= o.id %>" class="btn-edit">Ver</a>
-            </td>
-        </tr>
-    <% }) %>
-</table>
+            <td><%= o.equipamento
