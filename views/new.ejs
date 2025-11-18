@@ -1,0 +1,28 @@
+<% /* views/users_new.ejs */ %>
+<h1 class="page-title">Novo Usuário</h1>
+
+<div class="card">
+  <% if (error) { %>
+    <div class="erro"><%= error %></div>
+  <% } %>
+
+  <form method="POST" action="/users/new">
+    <label>Usuário (e-mail)</label>
+    <input name="usuario" required />
+
+    <label>Senha</label>
+    <input name="senha" type="password" required />
+
+    <label>Nome</label>
+    <input name="nome" />
+
+    <label>Role</label>
+    <select name="role">
+      <option value="admin">Admin</option>
+      <option value="funcionario" selected>Funcionário</option>
+      <option value="operador">Operador</option>
+    </select>
+
+    <button class="btn btn-green" style="margin-top:12px">Salvar</button>
+  </form>
+</div>
