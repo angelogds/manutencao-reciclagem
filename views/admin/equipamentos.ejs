@@ -1,36 +1,43 @@
+<% layout('layout', { title: "Equipamentos", active: "equipamentos" }) %>
+
 <h1 class="page-title">Equipamentos</h1>
 
-<a href="/equipamentos/novo" class="btn btn-green">+ Novo Equipamento</a>
+<a href="/equipamentos/novo" class="btn-add">+ Novo Equipamento</a>
 
-<br><br>
+<table class="tabela">
+    <tr>
+        <th>ID</th>
+        <th>Imagem</th>
+        <th>Nome</th>
+        <th>Código</th>
+        <th>Local</th>
+        <th>Ações</th>
+    </tr>
 
-<div class="card">
-<table class="table">
-<thead>
-<tr>
-  <th>ID</th>
-  <th>Nome</th>
-  <th>Código</th>
-  <th>Local</th>
-  <th>Ações</th>
-</tr>
-</thead>
+    <% equipamentos.forEach(e => { %>
+        <tr>
+            <td><%= e.id %></td>
 
-<tbody>
-<% equipamentos.forEach(e => { %>
-<tr>
-  <td><%= e.id %></td>
-  <td><%= e.nome %></td>
-  <td><%= e.codigo %></td>
-  <td><%= e.local %></td>
-  <td>
-    <a href="/equipamentos/<%= e.id %>/editar" class="btn-table btn-edit">Editar</a>
-    <form style="display:inline" method="POST" action="/equipamentos/<%= e.id %>/delete">
-      <button class="btn-table btn-delete" onclick="return confirm('Excluir?')">Excluir</button>
-    </form>
-  </td>
-</tr>
-<% }) %>
-</tbody>
+            <td>
+                <% if (e.imagem) { %>
+                    <img src="/<%= e.imagem %>" class="thumb">
+                <% } else { %>
+                    <span class="sem-img">Sem imagem</span>
+                <% } %>
+            </td>
+
+            <td><%= e.nome %></td>
+            <td><%= e.codigo || "-" %></td>
+            <td><%= e.local || "-" %></td>
+
+            <td>
+                <a href="/equipamentos/<%= e.id %>/editar" class="btn-edit">Editar</a>
+
+                <form method="POST" action="/equipamentos/<%= e.id %>/delete"
+                      style="display:inline;" onsubmit="return confirm('Excluir este equipamento?')">
+                    <button class="btn-del">Excluir</button>
+                </form>
+            </td>
+        </tr>
+    <% }) %>
 </table>
-</div>
