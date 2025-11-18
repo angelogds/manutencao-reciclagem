@@ -210,3 +210,8 @@ header .user-info {
 .btn-qr:hover {
     background: #1b5e20;
 }
+/* ===== Correias / estoque ===== */
+.btn-qr { background:#0d865c; color:#fff; padding:6px 10px; border-radius:6px; text-decoration:none; }
+.btn-add { background:#2e7d32; color:#fff; padding:8px 12px; border-radius:8px; text-decoration:none; margin-right:8px; display:inline-block; }
+.form-card { background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,.06); max-width:700px; }
+.no-data { text-align:center; padding:14px; color:#777; }
