@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title><%= title || "Sistema Manutenção" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
@@ -18,7 +19,8 @@
             <a href="/" class="<%= active === 'dashboard' ? 'active' : '' %>">Dashboard</a>
             <a href="/equipamentos" class="<%= active === 'equipamentos' ? 'active' : '' %>">Equipamentos</a>
             <a href="/ordens" class="<%= active === 'ordens' ? 'active' : '' %>">Ordens</a>
-            <a href="/ordens/novo" class="<%= active === 'abrir_os' ? 'active' : '' %>">Abrir OS Funcionário</a>
+            <a href="/ordens/novo" class="<%= active === 'abrir_os' ? 'active' : '' %>">Abrir OS</a>
+            <a href="/logout">Sair</a>
         </nav>
     </aside>
 
@@ -27,7 +29,14 @@
 
         <!-- TOPBAR -->
         <header class="topbar">
-            Sistema Manutenção
+            <div class="topbar-left">
+                <strong>Sistema Manutenção</strong>
+            </div>
+            <div class="topbar-right">
+                <% if (typeof session !== 'undefined' && session.user) { %>
+                    Olá, <%= session.user.nome || 'Usuário' %>
+                <% } %>
+            </div>
         </header>
 
         <!-- PAGE CONTENT -->
@@ -37,7 +46,7 @@
 
         <!-- FOOTER -->
         <footer class="footer">
-            Rodapé
+            Rodapé • CDG
         </footer>
     </main>
 
