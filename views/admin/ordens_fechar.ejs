@@ -1,18 +1,44 @@
-<h1 class="page-title">Fechar OS #<%= ordem.id %></h1>
+<% layout('layout', { title: "Detalhes da OS", active: "ordens" }) %>
+
+<h1 class="page-title">Ordem de Serviço #<%= ordem.id %></h1>
 
 <div class="card">
 
-<p><strong>Tipo:</strong> <%= ordem.tipo %></p>
-<p><strong>Solicitante:</strong> <%= ordem.solicitante %></p>
-<p><strong>Descrição:</strong> <%= ordem.descricao %></p>
+    <p><strong>Equipamento:</strong> <%= ordem.equipamento_nome || "-" %> (<%= ordem.equipamento_codigo || "-" %>)</p>
+    <p><strong>Solicitante:</strong> <%= ordem.solicitante || "-" %></p>
+    <p><strong>Tipo:</strong> <%= ordem.tipo || "-" %></p>
+    <p><strong>Status:</strong> 
+        <% if (ordem.status === "aberta") { %>
+            <span class="tag aberta">Aberta</span>
+        <% } else { %>
+            <span class="tag fechada">Fechada</span>
+        <% } %>
+    </p>
+    <p><strong>Abertura:</strong> <%= ordem.aberta_em %></p>
 
-<br>
+    <h3>Descrição:</h3>
+    <div class="descricao-box"><%= ordem.descricao %></div>
 
-<form method="POST">
-<label>Resultado</label>
-<textarea name="resultado" required></textarea>
+    <% if (ordem.status === "fechada") { %>
+        <h3>Resultado do Serviço:</h3>
+        <div class="descricao-box"><%= ordem.resultado %></div>
 
-<button class="btn btn-green">Fechar OS</button>
-</form>
+        <p><strong>Fechada em:</strong> <%= ordem.fechada_em %></p>
+
+        <a href="/solicitacao/pdf/<%= ordem.id %>" class="btn-download">
+            Baixar PDF
+        </a>
+    <% } %>
 
 </div>
+
+<% if (ordem.status === "aberta") { %>
+    <h2>Fechar OS</h2>
+
+    <form method="POST" action="/ordens/<%= ordem.id %>/fechar" class="form-card">
+        <label>Descreva o resultado do serviço</label>
+        <textarea name="resultado" rows="4" required></textarea>
+
+        <button class="btn-save">Fechar OS</button>
+    </form>
+<% } %>
