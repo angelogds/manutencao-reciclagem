@@ -1,26 +1,21 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Login - Admin</title>
-  <link rel="stylesheet" href="/public/style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Login - Sistema Manutenção</title>
+<link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
-  <div class="login-container">
-    <h2>Login do Administrador</h2>
-
-    <% if (erro) { %>
-      <p style="color:red;"><%= erro %></p>
-    <% } %>
-
-    <form action="/admin/login" method="POST">
-      <label for="email">Email:</label>
-      <input type="email" name="email" id="email" required>
-
-      <label for="senha">Senha:</label>
-      <input type="password" name="senha" id="senha" required>
-
-      <button type="submit">Entrar</button>
+<body style="display:flex;align-items:center;justify-content:center;height:100vh;background:linear-gradient(135deg,#1f5f3d,#4caf50)">
+  <div class="login-card">
+    <h2>Sistema Manutenção</h2>
+    <% if (error) { %><div style="background:#ffdddd;padding:8px;border-left:4px solid #b30000;margin-bottom:12px;color:#660000;border-radius:6px"><%= error %></div><% } %>
+    <form method="POST" action="/login">
+      <label>Usuário</label>
+      <input name="usuario" required />
+      <label>Senha</label>
+      <input type="password" name="senha" required />
+      <button type="submit" style="margin-top:6px">Entrar</button>
     </form>
   </div>
 </body>
