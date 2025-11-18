@@ -1,78 +1,105 @@
-<h1 class="page-title">Dashboard Bonitão ✔️</h1>
+<% layout('layout', { title: "Dashboard", active: "dashboard" }) %>
 
-<div class="dashboard-grid">
-    <div class="dash-card card">
-        <div class="dash-icon bg-green">📦</div>
-        <div class="dash-info">
-            <h3>Equipamentos</h3>
-            <p><%= totals.equipamentos %></p>
-        </div>
+<h1 class="page-title">Dashboard</h1>
+
+<!-- CARDS SUPERIORES -->
+<div class="cards-row">
+
+    <div class="card card-green">
+        <h3>Equipamentos</h3>
+        <p class="card-number"><%= totais.equipamentos %></p>
     </div>
 
-    <div class="dash-card card">
-        <div class="dash-icon bg-blue">🛠️</div>
-        <div class="dash-info">
-            <h3>Ordens Abertas</h3>
-            <p><%= totals.abertas %></p>
-        </div>
+    <div class="card card-orange">
+        <h3>OS Abertas</h3>
+        <p class="card-number"><%= totais.abertas %></p>
     </div>
 
-    <div class="dash-card card">
-        <div class="dash-icon bg-orange">✔️</div>
-        <div class="dash-info">
-            <h3>Ordens Fechadas</h3>
-            <p><%= totals.fechadas %></p>
-        </div>
+    <div class="card card-blue">
+        <h3>OS Fechadas</h3>
+        <p class="card-number"><%= totais.fechadas %></p>
     </div>
+
 </div>
 
-<div class="charts-container">
-    <div class="chart-card card">
-        <h3>Ordens por Tipo</h3>
-        <canvas id="chartTipos"></canvas>
+<hr class="divider">
+
+<!-- GRÁFICOS -->
+<div class="charts-row">
+
+    <div class="chart-box">
+        <h3>Tipos de OS</h3>
+        <canvas id="graficoTipos"></canvas>
     </div>
 
-    <div class="chart-card card">
-        <h3>Status das Ordens</h3>
-        <canvas id="chartStatus"></canvas>
+    <div class="chart-box">
+        <h3>OS por mês</h3>
+        <canvas id="graficoMes"></canvas>
     </div>
+
 </div>
 
-<div class="list-card card">
-    <h3>Últimas Ordens Abertas</h3>
+<hr class="divider">
 
-    <% if (!ultimas || ultimas.length === 0) { %>
-        <p>Nenhuma ordem aberta no momento.</p>
-    <% } else { %>
-        <ul class="ultima-lista">
-            <% ultimas.forEach(u => { %>
-                <li>
-                    <strong>#<%= u.id %></strong> — <%= u.equipamento_nome || "Sem equipamento" %>
-                    <span class="badge"><%= u.tipo %></span>
-                </li>
-            <% }) %>
-        </ul>
-    <% } %>
-</div>
+<!-- ÚLTIMAS OS -->
+<h2 class="sub-title">Últimas Ordens de Serviço</h2>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<table class="tabela tabela-dashboard">
+    <tr>
+        <th>ID</th>
+        <th>Equipamento</th>
+        <th>Tipo</th>
+        <th>Status</th>
+        <th>Abertura</th>
+    </tr>
+
+    <% ultimas.forEach(o => { %>
+    <tr>
+        <td><%= o.id %></td>
+        <td><%= o.equipamento_nome || "-" %></td>
+        <td><%= o.tipo || "-" %></td>
+
+        <td>
+            <% if (o.status === "aberta") { %>
+                <span class="tag aberta">Aberta</span>
+            <% } else { %>
+                <span class="tag fechada">Fechada</span>
+            <% } %>
+        </td>
+
+        <td><%= o.aberta_em %></td>
+    </tr>
+    <% }) %>
+</table>
+
+<!-- SCRIPT PARA OS GRÁFICOS -->
 <script>
-new Chart(document.getElementById("chartTipos"), {
-    type: "bar",
-    data: {
-        labels: <%- JSON.stringify(tipos.labels) %>,
-        datasets: [{
-            label: "Quantidade",
-            data: <%- JSON.stringify(tipos.valores) %>
-        }]
-    }
-});
+    // GRÁFICO DE TIPOS
+    const ctx1 = document.getElementById('graficoTipos');
 
-new Chart(document.getElementById("chartStatus"), {
-    type: "pie",
-    data: {
-        labels: ["Abertas", "Fechadas"],
-        datasets: [{ data: [<%= totals.abertas %>, <%= totals.fechadas %>] }]
-    }
-});
-</script>
+    new Chart(ctx1, {
+        type: 'pie',
+        data: {
+            labels: [
+                <% tipos.forEach(t => { %> "<%= t.tipo %>", <% }) %>
+            ],
+            datasets: [{
+                data: [
+                    <% tipos.forEach(t => { %> <%= t.total %>, <% }) %>
+                ],
+                backgroundColor: ["#27ae60", "#3498db", "#e67e22", "#9b59b6", "#e74c3c", "#16a085"]
+            }]
+        }
+    });
+
+    // GRÁFICO POR MÊS
+    const ctx2 = document.getElementById('graficoMes');
+
+    new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: [
+                <% porMes.forEach(m => { %> "<%= m.mes %>", <% }) %>
+            ],
+            datasets: [{
+                la
