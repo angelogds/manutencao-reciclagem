@@ -1,1 +1,18 @@
-<h1>Fechar OS</h1>
+<h1 class="page-title">Fechar OS #<%= ordem.id %></h1>
+
+<div class="card">
+
+<p><strong>Tipo:</strong> <%= ordem.tipo %></p>
+<p><strong>Solicitante:</strong> <%= ordem.solicitante %></p>
+<p><strong>Descrição:</strong> <%= ordem.descricao %></p>
+
+<br>
+
+<form method="POST">
+<label>Resultado</label>
+<textarea name="resultado" required></textarea>
+
+<button class="btn btn-green">Fechar OS</button>
+</form>
+
+</div>
