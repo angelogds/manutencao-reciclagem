@@ -1,43 +1,43 @@
-<h1 class="page-title">Ordens de Serviço</h1>
+<% layout('layout', { title: "Equipamentos", active: "equipamentos" }) %>
 
-<a href="/ordens/novo" class="btn btn-green">+ Abrir OS</a>
+<h1 class="page-title">Equipamentos</h1>
 
-<br><br>
+<a href="/equipamentos/novo" class="btn-add">+ Novo Equipamento</a>
 
-<div class="card">
-<table class="table">
-<thead>
-<tr>
-  <th>ID</th>
-  <th>Equipamento</th>
-  <th>Tipo</th>
-  <th>Status</th>
-  <th>Ação</th>
-</tr>
-</thead>
+<table class="tabela">
+    <tr>
+        <th>ID</th>
+        <th>Imagem</th>
+        <th>Nome</th>
+        <th>Código</th>
+        <th>Local</th>
+        <th>Ações</th>
+    </tr>
 
-<tbody>
-<% ordens.forEach(o => { %>
-<tr>
-  <td><%= o.id %></td>
-  <td><%= o.equipamento_nome || "-" %></td>
-  <td><%= o.tipo %></td>
-  <td>
-    <% if (o.status === "aberta") { %>
-      <span class="badge bg-blue">Aberta</span>
-    <% } else { %>
-      <span class="badge bg-green">Fechada</span>
-    <% } %>
-  </td>
-  <td>
-    <% if (o.status === "aberta") { %>
-      <a href="/ordens/<%= o.id %>/fechar" class="btn-table btn-edit">Fechar</a>
-    <% } else { %>
-      <a href="/solicitacao/pdf/<%= o.id %>" class="btn-table btn-green">PDF</a>
-    <% } %>
-  </td>
-</tr>
-<% }) %>
-</tbody>
+    <% equipamentos.forEach(e => { %>
+        <tr>
+            <td><%= e.id %></td>
+
+            <td>
+                <% if (e.imagem) { %>
+                    <img src="/<%= e.imagem %>" class="thumb">
+                <% } else { %>
+                    <span class="sem-img">Sem imagem</span>
+                <% } %>
+            </td>
+
+            <td><%= e.nome %></td>
+            <td><%= e.codigo || "-" %></td>
+            <td><%= e.local || "-" %></td>
+
+            <td>
+                <a href="/equipamentos/<%= e.id %>/editar" class="btn-edit">Editar</a>
+
+                <form method="POST" action="/equipamentos/<%= e.id %>/delete"
+                      style="display:inline;" onsubmit="return confirm('Excluir este equipamento?')">
+                    <button class="btn-del">Excluir</button>
+                </form>
+            </td>
+        </tr>
+    <% }) %>
 </table>
-</div>
