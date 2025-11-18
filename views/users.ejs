@@ -1,0 +1,28 @@
+<% /* views/users.ejs */ %>
+<h1 class="page-title">Usuários</h1>
+
+<a href="/users/new" class="btn btn-green">+ Novo Usuário</a>
+
+<div class="card">
+  <table class="table">
+    <thead>
+      <tr><th>ID</th><th>Usuário</th><th>Nome</th><th>Role</th><th>Ações</th></tr>
+    </thead>
+    <tbody>
+      <% users.forEach(u => { %>
+        <tr>
+          <td><%= u.id %></td>
+          <td><%= u.usuario %></td>
+          <td><%= u.nome %></td>
+          <td><%= u.role %></td>
+          <td>
+            <a href="/users/<%= u.id %>/edit" class="btn-table btn-edit">Editar</a>
+            <form method="POST" action="/users/<%= u.id %>/delete" style="display:inline">
+              <button class="btn-table btn-delete" onclick="return confirm('Excluir usuário?')">Excluir</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
