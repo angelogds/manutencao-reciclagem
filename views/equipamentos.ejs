@@ -1,33 +1,45 @@
 <h1 class="page-title">Equipamentos</h1>
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Redefinir Senha</title>
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body class="login-body">
 
-<div class="login-container">
+<a href="/equipamentos/novo" class="btn-add">+ Novo Equipamento</a>
 
-  <h2 class="login-title">Nova Senha</h2>
+<table class="tabela">
+    <tr>
+        <th>ID</th>
+        <th>Imagem</th>
+        <th>Nome</th>
+        <th>Código</th>
+        <th>Local</th>
+        <th>Ações</th>
+    </tr>
 
-  <% if (error) { %>
-    <div class="alert alert-error"><%= error %></div>
-  <% } %>
+    <% equipamentos.forEach(e => { %>
+        <tr>
+            <td><%= e.id %></td>
 
-  <form class="login-card" method="POST" action="/reset/<%= token %>">
+            <td>
+                <% if (e.imagem) { %>
+                    <img src="/<%= e.imagem %>" class="thumb">
+                <% } else { %>
+                    <span class="sem-img">Sem imagem</span>
+                <% } %>
+            </td>
 
-    <label>Nova Senha</label>
-    <input type="password" name="senha" required>
+            <td><%= e.nome %></td>
+            <td><%= e.codigo || "-" %></td>
+            <td><%= e.local || "-" %></td>
 
-    <button class="btn-save" style="width:100%">Salvar</button>
-  </form>
+            <td>
+                <a href="/equipamentos/<%= e.id %>/editar" class="btn-edit">Editar</a>
 
-  <a href="/login" class="login-forgot">Voltar ao login</a>
+                <a href="/equipamentos/<%= e.id %>/qrcode" class="btn-qr">
+                    <i class="fa-solid fa-qrcode"></i>
+                </a>
 
-</div>
-
-</body>
-</html>
+                <form method="POST" action="/equipamentos/<%= e.id %>/delete"
+                      style="display:inline;" onsubmit="return confirm('Excluir este equipamento?')">
+                    <button class="btn-del">Excluir</button>
+                </form>
+            </td>
+        </tr>
+    <% }) %>
+</table>
