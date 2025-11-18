@@ -1,0 +1,21 @@
+<%
+  const title = "Baixar Correia";
+  const active = "equipamentos";
+%>
+
+<h1 class="page-title">Baixa de Correia — <%= equipamento.nome %></h1>
+
+<form method="POST" action="/equipamentos/<%= equipamento.id %>/baixar-correia" class="form-card">
+
+  <label>Correia</label>
+  <select name="correia_id" required>
+    <% correias.forEach(c => { %>
+      <option value="<%= c.id %>"><%= c.nome %> (Em estoque: <%= c.quantidade %>)</option>
+    <% }) %>
+  </select>
+
+  <label>Quantidade</label>
+  <input type="number" name="quantidade" min="1" value="1" required>
+
+  <button class="btn-save">Confirmar Baixa</button>
+</form>
