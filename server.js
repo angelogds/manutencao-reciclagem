@@ -647,8 +647,15 @@ app.post('/equipamentos/:id/delete', authRequired, async (req, res) => {
 // ---------------------- (FIM BLOCO 6) ----------------------
 // ---------------------- BLOCO 7/9 ----------------------
 // CRUD DE ORDENS DE SERVIÇO (OS)
+// ====================================================================
+// BLOCO 7 — ORDENS DE SERVIÇO (OS) + QR CODE do Equipamento
+// ====================================================================
 
+const QRCode = require("qrcode");
+
+// ---------------------------------------------
 // LISTAR ORDENS
+// ---------------------------------------------
 app.get('/ordens', authRequired, async (req, res) => {
   try {
     const ordens = await allAsync(`
@@ -669,7 +676,9 @@ app.get('/ordens', authRequired, async (req, res) => {
   }
 });
 
+// ---------------------------------------------
 // FORM — ABRIR OS
+// ---------------------------------------------
 app.get('/ordens/novo', authRequired, async (req, res) => {
   try {
     const equipamentos = await allAsync(
@@ -687,7 +696,9 @@ app.get('/ordens/novo', authRequired, async (req, res) => {
   }
 });
 
+// ---------------------------------------------
 // CRIAR OS
+// ---------------------------------------------
 app.post('/ordens', authRequired, async (req, res) => {
   try {
     const { equipamento_id, solicitante, tipo, descricao } = req.body;
@@ -706,7 +717,9 @@ app.post('/ordens', authRequired, async (req, res) => {
   }
 });
 
-// VER OS / FORM FECHAR
+// ---------------------------------------------
+// VER OS / FORM PARA FECHAR
+// ---------------------------------------------
 app.get('/ordens/:id', authRequired, async (req, res) => {
   try {
     const ordem = await getAsync(`
@@ -729,7 +742,9 @@ app.get('/ordens/:id', authRequired, async (req, res) => {
   }
 });
 
+// ---------------------------------------------
 // FECHAR OS
+// ---------------------------------------------
 app.post('/ordens/:id/fechar', authRequired, async (req, res) => {
   try {
     await runAsync(
@@ -747,7 +762,45 @@ app.post('/ordens/:id/fechar', authRequired, async (req, res) => {
   }
 });
 
-// ---------------------- PDF DA OS ----------------------
+
+
+// ====================================================================
+// QR CODE DO EQUIPAMENTO (Abre o menu mobile correta)
+// ====================================================================
+app.get("/equipamentos/:id/qrcode", authRequired, async (req, res) => {
+  try {
+    const equipamento = await getAsync(
+      `SELECT * FROM equipamentos WHERE id = ?`,
+      [req.params.id]
+    );
+
+    if (!equipamento) return res.send("Equipamento não encontrado.");
+
+    // URL que o QR Code deve abrir → MENU MOBILE
+    const baseUrl = process.env.BASE_URL || `https://${req.headers.host}`;
+    const url = `${baseUrl}/equipamento/${equipamento.id}/menu`;
+
+    // Gera QR Code base64
+    const qr = await QRCode.toDataURL(url);
+
+    res.render("equipamento_qr", {
+      equipamento,
+      qr,
+      url,
+      active: "equipamentos",
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.send("Erro ao gerar QR Code.");
+  }
+});
+
+
+
+// ====================================================================
+// GERAR PDF DA OS (com dados completos)
+// ====================================================================
 app.get('/solicitacao/pdf/:id', authRequired, async (req, res) => {
   try {
     const ordem = await getAsync(`
@@ -795,6 +848,7 @@ app.get('/solicitacao/pdf/:id', authRequired, async (req, res) => {
     res.send('Erro ao gerar PDF.');
   }
 });
+
 
 // ---------------------- (FIM BLOCO 7) ----------------------
 // ---------------------- BLOCO 8/9 ----------------------
