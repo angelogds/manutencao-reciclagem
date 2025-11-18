@@ -1,59 +1,97 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= typeof title !== "undefined" ? title : "Sistema Manutenção" %></title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title><%= typeof title !== "undefined" ? title : "Sistema Manutenção" %></title>
 
-    <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/style.css">
 
-    <!-- Ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <!-- Font Awesome (CDN) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
 </head>
 <body>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar" id="sidebar">
-        <h2>Campo do Gado</h2>
-
-        <ul>
-            <li><a href="/" class="<%= active === 'dashboard' ? 'active' : '' %>"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
-            <li><a href="/equipamentos" class="<%= active === 'equipamentos' ? 'active' : '' %>"><i class="fa-solid fa-truck"></i> Equipamentos</a></li>
-            <li><a href="/ordens" class="<%= active === 'ordens' ? 'active' : '' %>"><i class="fa-solid fa-list-check"></i> Ordens</a></li>
-
-            <% if (session.role === 'admin') { %>
-            <li><a href="/users" class="<%= active === 'users' ? 'active' : '' %>"><i class="fa-solid fa-users"></i> Usuários</a></li>
-            <% } %>
-
-            <li><a href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Sair</a></li>
-        </ul>
-    </aside>
-<li><a href="/correias" class="<%= active === 'correias' ? 'active' : '' %>">
-  <i class="fa-solid fa-gears"></i> Correias
-</a></li>
-
-    <!-- CONTEÚDO PRINCIPAL -->
-    <div class="main-container">
-
-        <header>
-            <span class="menu-toggle" onclick="toggleMenu()">☰</span>
-
-            <div class="user-info">
-                Logado como: <strong><%= session.usuario %></strong>
-            </div>
-        </header>
-
-        <main>
-            <%- body %>
-        </main>
-
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <a href="/" class="brand-link">
+        <img src="/img/logo.png" alt="logo" class="brand-logo" onerror="this.style.display='none'">
+        <span class="brand-text">Campo do Gado</span>
+      </a>
     </div>
 
-    <script>
-        function toggleMenu() {
-            document.getElementById("sidebar").classList.toggle("open");
-        }
-    </script>
+    <nav class="nav">
+      <a href="/" class="nav-item <%= active === 'dashboard' ? 'active' : '' %>">
+        <i class="fa-solid fa-chart-line"></i><span>Dashboard</span>
+      </a>
+
+      <a href="/equipamentos" class="nav-item <%= active === 'equipamentos' ? 'active' : '' %>">
+        <i class="fa-solid fa-truck-moving"></i><span>Equipamentos</span>
+      </a>
+
+      <a href="/ordens" class="nav-item <%= active === 'ordens' ? 'active' : '' %>">
+        <i class="fa-solid fa-list-check"></i><span>Ordens</span>
+      </a>
+
+      <a href="/correias" class="nav-item <%= active === 'correias' ? 'active' : '' %>">
+        <i class="fa-solid fa-cog"></i><span>Correias (Estoque)</span>
+      </a>
+
+      <% if (session && session.role === 'admin') { %>
+      <a href="/users" class="nav-item <%= active === 'users' ? 'active' : '' %>">
+        <i class="fa-solid fa-users"></i><span>Usuários</span>
+      </a>
+      <% } %>
+
+      <a href="/logout" class="nav-item logout">
+        <i class="fa-solid fa-right-from-bracket"></i><span>Sair</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <small>v1.0 • Manutenção</small>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-container">
+
+    <header class="topbar">
+      <button class="btn-toggle" id="btnToggle" aria-label="abrir menu">☰</button>
+
+      <div class="topbar-right">
+        <div class="user">
+          <i class="fa-solid fa-user"></i>
+          <span class="user-name"><%= session && session.usuario ? session.usuario : 'Convidado' %></span>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <!-- Flash/info area (padrão) -->
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-error"><%= error %></div>
+      <% } %>
+
+      <% if (typeof info !== 'undefined' && info) { %>
+        <div class="alert alert-info"><%= info %></div>
+      <% } %>
+
+      <!-- Página renderiza aqui -->
+      <%- body %>
+    </main>
+
+  </div>
+
+  <script>
+    (function () {
+      const btn = document.getElementById('btnToggle');
+      const sidebar = document.getElementById('sidebar');
+      btn && btn.addEventListener('click', () => sidebar.classList.toggle('collapsed'));
+    })();
+  </script>
 
 </body>
 </html>
