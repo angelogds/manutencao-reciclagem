@@ -1,4 +1,8 @@
-<% layout('layout', { title: "Nova OS", active: "ordens" }) %>
+<% 
+// Variáveis usadas no layout:
+const title = "Nova OS";
+const active = "ordens";
+%>
 
 <h1 class="page-title">Abrir Nova Ordem de Serviço</h1>
 
@@ -22,12 +26,4 @@
         <option value="Elétrica">Elétrica</option>
         <option value="Hidráulica">Hidráulica</option>
         <option value="Preventiva">Preventiva</option>
-        <option value="Corretiva">Corretiva</option>
-        <option value="Outra">Outra</option>
-    </select>
-
-    <label>Descrição do Problema</label>
-    <textarea name="descricao" rows="4" required></textarea>
-
-    <button class="btn-save">Abrir OS</button>
-</form>
+        <option value="Corretiva">Corretiva</opt
