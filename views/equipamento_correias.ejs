@@ -1,23 +1,31 @@
-<%
-  const title = "Associação de Correias";
-  const active = "equipamentos";
-%>
+<% layout('layout', { title: "Correias do Equipamento", active: "equipamentos" }) %>
 
-<h1 class="page-title">Correias: <%= equipamento.nome %></h1>
+<h1 class="page-title">Correias — <%= equipamento.nome %></h1>
 
 <form method="POST" action="/equipamentos/<%= equipamento.id %>/correias" class="form-card">
-  <% correias.forEach(c => { %>
-    <div style="margin-bottom:10px;">
-      <label>
-        <input type="checkbox" name="correia" value="<%= c.id %>" <%= mapLigados[c.id] ? 'checked' : '' %> >
-        <strong><%= c.nome %></strong> (<%= c.modelo || '-' %>) - Estoque: <%= c.quantidade %>
-      </label>
-      <div style="margin-left:28px;">
-        <label>Quantidade usada por troca (qtd_default):</label>
-        <input type="number" name="qtd_<%= c.id %>" min="1" value="<%= mapLigados[c.id] || 1 %>">
-      </div>
-    </div>
-  <% }) %>
 
-  <button class="btn-save">Salvar Associações</button>
+    <p>Selecione as correias utilizadas neste equipamento e informe quantas vão nele.</p>
+
+    <% correias.forEach(c => { %>
+        <div class="correia-line">
+
+            <label class="check-correia">
+                <input type="checkbox" name="correia" value="<%= c.id %>"
+                       <% if (mapLigados[c.id]) { %> checked <% } %>>
+                <strong><%= c.nome %></strong> — <%= c.modelo || '' %> (<%= c.medida || '' %>)
+            </label>
+
+            <div>
+                <small>Quantidade utilizada</small>
+                <input type="number"
+                       name="qtd_<%= c.id %>"
+                       min="1"
+                       value="<%= mapLigados[c.id] || 1 %>"
+                       style="width:70px;">
+            </div>
+
+        </div>
+    <% }) %>
+
+    <button class="btn-save">Salvar Associações</button>
 </form>
