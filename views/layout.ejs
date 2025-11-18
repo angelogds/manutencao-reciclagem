@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title || "Sistema Manutenção" %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">Sistema</div>
+
+        <nav class="sidebar-menu">
+            <a href="/" class="<%= active === 'dashboard' ? 'active' : '' %>">Dashboard</a>
+            <a href="/equipamentos" class="<%= active === 'equipamentos' ? 'active' : '' %>">Equipamentos</a>
+            <a href="/ordens" class="<%= active === 'ordens' ? 'active' : '' %>">Ordens</a>
+            <a href="/ordens/novo" class="<%= active === 'abrir_os' ? 'active' : '' %>">Abrir OS Funcionário</a>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+            Sistema Manutenção
+        </header>
+
+        <!-- PAGE CONTENT -->
+        <section class="content">
+            <%- body %>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            Rodapé
+        </footer>
+    </main>
+
+</div>
+
+</body>
+</html>
