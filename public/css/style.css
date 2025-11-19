@@ -59,11 +59,56 @@ body { background: #f7fbf8; color: #0b2a16; -webkit-font-smoothing:antialiased; 
 /* Page title */
 .page-title { font-size:20px; margin-bottom:14px; color:#063a22; }
 
-/* Cards container */
-.cards-container { display:grid; grid-template-columns: repeat(3,1fr); gap:14px; margin-bottom:18px; }
-.card { background:#fff; border-radius:10px; padding:18px; box-shadow: 0 6px 18px rgba(9,34,18,0.06); }
-.card h3 { font-size:13px; color:#2f5e44; margin-bottom:8px; }
-.card-number { font-size:28px; font-weight:700; color:#0b2a16; }
+/* Cards container – versão desktop */
+.cards-container { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 14px; 
+    margin-bottom: 18px; 
+}
+
+.card { 
+    background: #fff; 
+    border-radius: 10px; 
+    padding: 18px; 
+    box-shadow: 0 6px 18px rgba(9,34,18,0.06); 
+}
+
+.card h3 { 
+    font-size: 13px; 
+    color: #2f5e44; 
+    margin-bottom: 8px; 
+}
+
+.card-number { 
+    font-size: 28px; 
+    font-weight: 700; 
+    color: #0b2a16; 
+}
+
+/* ----------- RESPONSIVIDADE ----------- */
+
+/* Tablets (2 colunas) */
+@media (max-width: 900px) {
+    .cards-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Celular (1 coluna) */
+@media (max-width: 600px) {
+    .cards-container {
+        grid-template-columns: 1fr; /* apenas 1 card por linha */
+    }
+
+    .card {
+        padding: 16px;
+    }
+
+    .card-number {
+        font-size: 24px;
+    }
+}
 
 /* Table */
 .table, .tabela { width:100%; border-collapse:collapse; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 8px 20px rgba(9,34,18,0.04); }
@@ -111,4 +156,39 @@ a.btn-add { background:#0b7a45; color:#fff; font-weight:700; }
   .cards-container { grid-template-columns:1fr; }
   .topbar { padding:8px; }
   .content { padding:12px; }
+}
+/* -------- MENU MOBILE -------- */
+.sidebar {
+    width: 260px;
+    background: #0a3622;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: -260px;
+    transition: all .3s;
+    z-index: 999;
+}
+
+.sidebar.open {
+    left: 0;
+}
+
+.menu-toggle {
+    font-size: 28px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+/* Sombra ao abrir */
+.menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4);
+    z-index: 998;
+}
+
+.menu-overlay.show {
+    display: block;
 }
