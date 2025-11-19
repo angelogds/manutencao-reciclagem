@@ -1,5 +1,12 @@
 // server.js — Sistema de Manutenção completo (roles, correias, QR, uploads, seed)
 // Requer: express, express-ejs-layouts, express-session, ejs, sqlite3, multer, pdfkit, bcrypt, nodemailer, uuid, qrcode
+// =======================
+// PÁGINA DE INÍCIO (PÚBLICA)
+app.use((req, res, next) => {
+// =======================
+app.get('/inicio', (req, res) => {
+  res.render('inicio', { layout: false });
+});
 
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
