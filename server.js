@@ -956,12 +956,3 @@ app.get('/', authRequired, async (req, res) => {
     res.send("Erro ao carregar dashboard.");
   }
 });
-
-
-// ---------------------------------------------
-// INICIAR SERVIDOR
-// ---------------------------------------------
-app.listen(PORT, () => {
-  console.log(`Servidor ativo na porta ${PORT}`);
-  console.log(`SQLite conectado em ${DB_FILE}`);
-});
