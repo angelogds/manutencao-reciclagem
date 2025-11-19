@@ -1,116 +1,250 @@
-/* ======== RESET ======== */
+/* ===========================
+   RESET & BASE
+=========================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
 }
 
-body {
-    background: #e4efe6;
+html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    font-family: "Inter", sans-serif;
+    background: #f3f7f4;
 }
 
-/* ======== LAYOUT ======== */
-.layout {
-    display: flex;
-    height: 100vh;
-}
-.tag.admin {
-    background: #0d6efd;
-}
-
-.tag.funcionario {
-    background: #198754;
-}
-
-.tag.operador {
-    background: #ffc107;
-}
-
-/* ======== SIDEBAR ======== */
+/* ===========================
+   SIDEBAR (MENU LATERAL)
+=========================== */
 .sidebar {
-    width: 230px;
-    background: #1f5f3d; /* verde médio */
-    display: flex;
-    flex-direction: column;
-    color: white;
-}
-
-.sidebar-header {
-    background: #4caf50; /* verde claro */
-    padding: 18px;
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-}
-
-.sidebar-menu {
-    display: flex;
-    flex-direction: column;
-    padding: 10px 0;
-}
-
-.sidebar-menu a {
-    padding: 12px 18px;
-    text-decoration: none;
-    color: #e8f5e9;
-    display: block;
-    font-size: 15px;
-}
-
-.sidebar-menu a:hover {
-    background: #2e7d50;
-}
-
-.sidebar-menu .active {
-    background: #145235;
-    font-weight: bold;
-}
-
-/* ======== MAIN AREA ======== */
-.main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-/* TOPBAR */
-.topbar {
-    background: #7ddc88;
+    width: 240px;
+    background: #0b2a16;
+    height: 100vh;
     padding: 20px;
-    font-size: 18px;
-    font-weight: bold;
-    color: #1b3b2b;
-    border-bottom: 1px solid #b9d6bf;
+    position: fixed;
+    left: 0;
+    top: 0;
+    color: #fff;
+    transition: transform .3s ease;
 }
 
-/* CONTENT AREA */
-.content {
-    padding: 25px;
-    flex: 1;
-    overflow-y: auto;
-}
-
-/* CARDS PADRÃO */
-.card {
-    background: #f4f6f4;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #d0d8d0;
+.sidebar h2 {
     margin-bottom: 20px;
 }
 
-.card h3 {
-    margin-bottom: 8px;
-    color: #1b3b2b;
+.sidebar ul {
+    list-style: none;
 }
 
-/* FOOTER */
-.footer {
-    background: #e3e5e3;
-    padding: 12px;
-    text-align: center;
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 15px;
+    display: block;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.sidebar ul li a.active,
+.sidebar ul li a:hover {
+    background: #15492b;
+}
+
+/* ====== MOBILE: Sidebar escondida ====== */
+@media (max-width: 700px) {
+    .sidebar {
+        transform: translateX(-100%);
+        width: 220px;
+        z-index: 10;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .menu-toggle {
+        display: block;
+        font-size: 26px;
+        cursor: pointer;
+        color: #0b2a16;
+        margin: 10px;
+    }
+}
+
+/* Desktop — esconde botão */
+.menu-toggle {
+    display: none;
+}
+
+/* ===========================
+   MAIN CONTENT
+=========================== */
+.main-container {
+    margin-left: 240px;
+    padding: 22px;
+    transition: .3s;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user-info {
+    font-weight: 600;
     font-size: 14px;
-    color: #333;
-    border-top: 1px solid #cbd3cb;
+}
+
+@media (max-width: 700px) {
+    .main-container {
+        margin-left: 0;
+        padding: 15px;
+    }
+}
+
+/* ===========================
+   TITULOS
+=========================== */
+.page-title {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #0b2a16;
+}
+
+@media (max-width: 600px) {
+    .page-title {
+        font-size: 20px;
+    }
+}
+
+/* ===========================
+   CARDS DO DASHBOARD
+=========================== */
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 6px 18px rgba(9, 34, 18, 0.06);
+}
+
+.card h3 {
+    font-size: 14px;
+    color: #2f5e44;
+    margin-bottom: 8px;
+}
+
+.card-number {
+    font-size: 28px;
+    font-weight: 700;
+    color: #0b2a16;
+}
+
+/* MOBILE: cards em 1 coluna */
+@media (max-width: 600px) {
+    .cards-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===========================
+   TABELAS
+=========================== */
+.table, .tabela {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td,
+.tabela th, .tabela td {
+    padding: 10px;
+    background: #fff;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+/* Mobile: tabela vira scroll */
+@media (max-width: 700px) {
+    .table, .tabela {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
+
+/* ===========================
+   FORMULÁRIOS
+=========================== */
+.form-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+form input,
+form select,
+form textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* ===========================
+   BOTÕES
+=========================== */
+.btn-add, .btn-edit, .btn-del, .btn-save, .btn-download {
+    padding: 10px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-add {
+    background: #0b2a16;
+    color: white;
+}
+
+.btn-edit {
+    background: #125e2e;
+    color: white;
+}
+
+.btn-del {
+    background: #a11;
+    color: white;
+}
+
+.btn-save {
+    background: #0b2a16;
+    color: white;
+    width: 100%;
+}
+
+/* ===========================
+   GRÁFICOS
+=========================== */
+.chart-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+canvas {
+    max-width: 100% !important;
+    height: auto !important;
 }
