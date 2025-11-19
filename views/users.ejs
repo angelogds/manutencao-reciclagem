@@ -7,7 +7,7 @@
         <th>ID</th>
         <th>Usuário</th>
         <th>Nome</th>
-        <th>Função</th>
+        <th>Papel</th>
         <th>Ações</th>
     </tr>
 
@@ -15,12 +15,13 @@
         <tr>
             <td><%= u.id %></td>
             <td><%= u.usuario %></td>
-            <td><%= u.nome || "-" %></td>
+            <td><%= u.nome %></td>
+
             <td>
-                <% if (u.role === "admin") { %>
-                    <span class="tag admin">Admin</span>
-                <% } else if (u.role === "funcionario") { %>
-                    <span class="tag func">Funcionário</span>
+                <% if (u.role === 'admin') { %>
+                    <span class="tag admin">Administrador</span>
+                <% } else if (u.role === 'funcionario') { %>
+                    <span class="tag funcionario">Funcionário</span>
                 <% } else { %>
                     <span class="tag operador">Operador</span>
                 <% } %>
@@ -29,12 +30,12 @@
             <td>
                 <a href="/users/<%= u.id %>/edit" class="btn-edit">Editar</a>
 
-                <form method="POST" action="/users/<%= u.id %>/delete" style="display:inline;"
-                      onsubmit="return confirm('Excluir este usuário?')">
+                <form method="POST" action="/users/<%= u.id %>/delete" 
+                      style="display:inline" 
+                      onsubmit="return confirm('Excluir usuário?')">
                     <button class="btn-del">Excluir</button>
                 </form>
             </td>
         </tr>
     <% }) %>
 </table>
-
