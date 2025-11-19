@@ -615,6 +615,28 @@ app.post('/equipamentos/:id/baixar-correia', authRequired, allowRoles('admin', '
     res.send('Erro ao debitar correia.');
   }
 });
+// ====================================================================
+// MENU DO EQUIPAMENTO (USADO PELO QR CODE)
+// ====================================================================
+app.get('/equipamentos/:id/menu', authRequired, async (req, res) => {
+    try {
+        const equipamento = await getAsync(
+            `SELECT * FROM equipamentos WHERE id = ?`,
+            [req.params.id]
+        );
+
+        if (!equipamento) return res.send("Equipamento não encontrado.");
+
+        res.render('equipamento_menu', {
+            equipamento,
+            active: 'equipamentos'
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.send("Erro ao carregar menu do equipamento.");
+    }
+});
 
 // Relatório mensal de consumo de correias
 app.get('/correias/relatorio', authRequired, allowRoles('admin', 'funcionario'), async (req, res) => {
