@@ -955,6 +955,8 @@ app.get('/', authRequired, async (req, res) => {
         equipamentos: totalEquip.c,
         abertas: totalAbertas.c,
         fechadas: totalFechadas.c
+        porDia,
+    porMes,
       },
       ultimas,
       tipos,  // <-- essencial
