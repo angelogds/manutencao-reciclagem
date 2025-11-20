@@ -966,3 +966,6 @@ app.get('/', authRequired, async (req, res) => {
     res.send("Erro ao carregar dashboard.");
   }
 });
+app.listen(PORT, () => {
+    console.log("Servidor ativo na porta " + PORT);
+});
