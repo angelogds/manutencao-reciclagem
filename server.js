@@ -929,6 +929,7 @@ app.get('/equipamentos/:id/menu', authRequired, async (req, res) => {
 // ---------------------------------------------
 app.get('/', authRequired, async (req, res) => {
   try {
+
     const totalEquip = await getAsync(`SELECT COUNT(*) AS c FROM equipamentos`);
     const totalAbertas = await getAsync(`SELECT COUNT(*) AS c FROM ordens WHERE status='aberta'`);
     const totalFechadas = await getAsync(`SELECT COUNT(*) AS c FROM ordens WHERE status='fechada'`);
@@ -941,6 +942,14 @@ app.get('/', authRequired, async (req, res) => {
       LIMIT 6
     `);
 
+    // ADICIONADO — resolve o erro do dashboard
+    const tipos = await allAsync(`
+      SELECT modelo AS tipo, COUNT(*) AS total
+      FROM correias
+      GROUP BY modelo
+      ORDER BY modelo
+    `);
+
     res.render("admin/dashboard", {
       totais: {
         equipamentos: totalEquip.c,
@@ -948,6 +957,7 @@ app.get('/', authRequired, async (req, res) => {
         fechadas: totalFechadas.c
       },
       ultimas,
+      tipos,    // <<<<<< obrigatório para o EJS não quebrar
       active: "dashboard",
     });
 
