@@ -1,34 +1,103 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Login</title>
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Campo do Gado</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #eaf5ec; /* verde clarinho */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            width: 360px;
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+
+        .logo {
+            width: 180px;
+            margin: 0 auto 20px auto;
+        }
+
+        h2 {
+            color: #0f4d2c;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #b5cbbf;
+            border-radius: 8px;
+            margin-bottom: 14px;
+            font-size: 15px;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background: #0f4d2c;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .btn-login:hover {
+            background: #0a3b21;
+        }
+
+        .link {
+            display: block;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #0f4d2c;
+            text-decoration: none;
+        }
+
+        .erro {
+            color: #b30000;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+    </style>
 </head>
-<body class="login-body">
+
+<body>
 
 <div class="login-container">
 
-  <h2 class="login-title">Acesso ao Sistema</h2>
+    <!-- LOGO DA EMPRESA -->
+    <img src="/uploads/logo_campo_do_gado.png" class="logo">
 
-  <% if (error) { %>
-    <div class="alert alert-error"><%= error %></div>
-  <% } %>
+    <h2>Acesso ao Sistema</h2>
 
-  <form class="login-card" method="POST" action="/login">
-    <label>Usuário</label>
-    <input type="text" name="usuario" required>
+    <% if (error) { %>
+        <div class="erro"><%= error %></div>
+    <% } %>
 
-    <label>Senha</label>
-    <input type="password" name="senha" required>
+    <form method="POST" action="/login">
+        <input type="text" name="usuario" placeholder="Usuário" required>
+        <input type="password" name="senha" placeholder="Senha" required>
 
-    <button class="btn-save" style="width:100%">Entrar</button>
-  </form>
+        <button class="btn-login" type="submit">Entrar</button>
+    </form>
 
-  <a href="/forgot" class="login-forgot">Esqueci minha senha</a>
-
+    <a href="/forgot" class="link">Esqueci minha senha</a>
 </div>
 
 </body>
