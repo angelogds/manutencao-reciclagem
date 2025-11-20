@@ -359,3 +359,106 @@ canvas {
 .btn-delete-foto:hover {
     background: #b71c1c;
 }
+/* ====================== */
+/* MENU LATERAL MODERNO   */
+/* ====================== */
+
+.sidebar {
+    width: 230px;
+    height: 100vh;
+    background: #0b5e33;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 25px 15px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    z-index: 100;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 35px;
+}
+
+.logo-icone {
+    font-size: 28px;
+    color: #ffffff;
+}
+
+.logo-text {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-list li {
+    margin-bottom: 12px;
+}
+
+.menu-list a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #e3f7ea;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.menu-list a:hover {
+    background: #0d6e3b;
+    color: white;
+}
+
+.menu-list a.active {
+    background: #0a4727;
+    font-weight: 700;
+    color: white;
+}
+
+/* Ajuste da área de conteúdo */
+.content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+/* Responsivo — Menu vira topo no celular */
+@media (max-width: 768px) {
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        flex-direction: row;
+        padding: 10px;
+    }
+
+    .menu-list {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+    }
+
+    .menu-list a {
+        font-size: 14px;
+        padding: 8px 10px;
+        white-space: nowrap;
+    }
+
+    .content {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}
