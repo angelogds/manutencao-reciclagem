@@ -1,104 +1,49 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Campo do Gado</title>
-
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background: #eaf5ec; /* verde clarinho */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .login-container {
-            width: 360px;
-            background: white;
-            padding: 30px;
-            border-radius: 14px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            text-align: center;
-        }
-
-        .logo {
-            width: 180px;
-            margin: 0 auto 20px auto;
-        }
-
-        h2 {
-            color: #0f4d2c;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #b5cbbf;
-            border-radius: 8px;
-            margin-bottom: 14px;
-            font-size: 15px;
-        }
-
-        .btn-login {
-            width: 100%;
-            padding: 12px;
-            background: #0f4d2c;
-            color: white;
-            font-size: 16px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .btn-login:hover {
-            background: #0a3b21;
-        }
-
-        .link {
-            display: block;
-            margin-top: 15px;
-            font-size: 14px;
-            color: #0f4d2c;
-            text-decoration: none;
-        }
-
-        .erro {
-            color: #b30000;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login — Campo do Gado</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .login-body {
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background-image: url('/img/login-bg.png');
+      background-size: contain;
+      background-position: top center;
+      background-repeat: no-repeat;
+      background-color: #f3f6f5;
+      padding-top: 220px; /* empurra o card abaixo do logo */
+    }
+    .login-container { width:100%; max-width:420px; background:#fff; border-radius:10px; padding:22px; box-shadow:0 10px 30px rgba(0,0,0,0.06); }
+    .login-title { margin-bottom:10px; color:var(--green-700); font-size:20px; }
+    .login-card input { width:100%; padding:8px; margin-bottom:10px; border-radius:6px; border:1px solid #dfe7e4; }
+    .login-card .btn-save { width:100%; display:block; }
+    .login-forgot { display:block; margin-top:8px; color:#4a2b84; text-decoration:underline; }
+  </style>
 </head>
-
-<body>
-
-<div class="login-container">
-
-    <!-- LOGO DA EMPRESA -->
-    <img src="/uploads/logo_campo_do_gado.png" class="logo">
-
-    <h2>Acesso ao Sistema</h2>
+<body class="login-body">
+  <div class="login-container">
+    <h2 class="login-title">Acesso ao Sistema</h2>
 
     <% if (error) { %>
-        <div class="erro"><%= error %></div>
+      <div class="alert alert-error"><%= error %></div>
     <% } %>
 
-    <form method="POST" action="/login">
-        <input type="text" name="usuario" placeholder="Usuário" required>
-        <input type="password" name="senha" placeholder="Senha" required>
+    <form class="login-card" method="POST" action="/login">
+      <label>Usuário</label>
+      <input type="text" name="usuario" required>
 
-        <button class="btn-login" type="submit">Entrar</button>
+      <label>Senha</label>
+      <input type="password" name="senha" required>
+
+      <button class="btn-save">Entrar</button>
     </form>
 
-    <a href="/forgot" class="link">Esqueci minha senha</a>
-</div>
-
+    <a href="/forgot" class="login-forgot">Esqueci minha senha</a>
+  </div>
 </body>
 </html>
