@@ -24,34 +24,32 @@
         <h3>Resultado do Serviço</h3>
         <div class="descricao-box"><%= ordem.resultado %></div>
 
-        <!-- =============================
-             GALERIA MODERNA DE FOTOS
-        ============================== -->
+        <!-- FOTOS -->
         <h3 style="margin-top:25px;">📸 Fotos da Ordem</h3>
 
         <div class="galeria">
-        <% if (fotos.length === 0) { %>
-            <p style="color:#777;">Nenhuma foto enviada.</p>
-        <% } else { %>
-            <% fotos.forEach(f => { %>
-               <div class="foto-item">
-    <img src="/<%= f.caminho %>" onclick="abrirZoom('/<%= f.caminho %>')">
+            <% if (fotos.length === 0) { %>
+                <p style="color:#777;">Nenhuma foto enviada.</p>
+            <% } else { %>
+                <% fotos.forEach(f => { %>
+                    <div class="foto-item">
+                        <img src="/<%= f.caminho %>" onclick="abrirZoom('/<%= f.caminho %>')">
+                        <span class="foto-legenda">
+                            <%= f.tipo === 'abertura' ? 'Abertura' : 'Fechamento' %>
+                        </span>
 
-    <span class="foto-legenda">
-        <%= f.tipo === 'abertura' ? 'Abertura' : 'Fechamento' %>
-    </span>
+                        <form method="POST" action="/os_fotos/<%= f.id %>/delete" onsubmit="return confirm('Excluir esta foto?');">
+                            <button class="btn-delete-foto">Excluir</button>
+                        </form>
+                    </div>
+                <% }) %>
+            <% } %>
+        </div>
 
-    <form method="POST" action="/os_fotos/<%= f.id %>/delete" onsubmit="return confirm('Excluir esta foto?')">
-        <button class="btn-delete-foto">Excluir</button>
-    </form>
-</div>
-
-
-        <!-- MODAL -->
+        <!-- MODAL ZOOM -->
         <div id="zoomModal" class="zoom-modal" onclick="fecharZoom()">
             <img id="zoomImg">
         </div>
-        <!-- FIM GALERIA -->
 
         <p><strong>Fechada em:</strong> <%= ordem.fechada_em %></p>
 
@@ -61,15 +59,12 @@
 
 </div>
 
-<!-- =============================
-     FORMULÁRIO PARA FECHAR A OS
-============================= -->
 <% if (ordem.status === "aberta") { %>
 
 <h2>Fechar esta OS</h2>
 
 <form method="POST" action="/ordens/<%= ordem.id %>/fechar" 
-      enctype="multipart/form-data"  <!-- IMPORTANTE -->
+      enctype="multipart/form-data"
       class="form-card">
 
     <label>Resultado do Serviço</label>
@@ -83,7 +78,7 @@
 
 <% } %>
 
-<!-- =============== JS do ZOOM =============== -->
+<!-- JS -->
 <script>
 function abrirZoom(src) {
     document.getElementById('zoomModal').style.display = 'flex';
