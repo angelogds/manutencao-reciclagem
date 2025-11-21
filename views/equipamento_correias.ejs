@@ -1,29 +1,83 @@
 <h1 class="page-title">Correias do Equipamento</h1>
 
-<h2><%= equipamento.nome %></h2>
-<p>Código: <strong><%= equipamento.codigo || "-" %></strong></p>
+<div class="card">
 
-<form method="POST" action="/equipamentos/<%= equipamento.id %>/correias" class="form-card">
+    <h2 style="margin-bottom: 10px;"><%= equipamento.nome %></h2>
+    <p><strong>Código:</strong> <%= equipamento.codigo %></p>
+    <p><strong>Local:</strong> <%= equipamento.local %></p>
 
-    <p>Selecione as correias utilizadas neste equipamento:</p>
+    <hr style="margin:20px 0;">
 
-    <% correias.forEach(c => { %>
-        <div class="form-group" style="margin-bottom:15px; border-bottom:1px solid #ddd; padding-bottom:10px;">
-            
-            <label>
-                <input type="checkbox" name="correia" value="<%= c.id %>"
-                       <%= mapLigados[c.id] ? "checked" : "" %>>
-                <strong><%= c.nome %></strong> — <%= c.modelo || "" %> <%= c.medida || "" %>
-            </label>
+    <form method="POST" action="/equipamentos/<%= equipamento.id %>/correias" class="form-card">
 
-            <div style="margin-top:5px;">
-                Quantidade usada neste equipamento:
-                <input type="number" name="qtd_<%= c.id %>" min="1" 
-                       value="<%= mapLigados[c.id] || 1 %>" style="width:80px;">
-            </div>
+        <h3>Correias Instaladas</h3>
+
+        <div class="correias-list">
+
+            <% correias.forEach(c => { %>
+
+                <div class="correia-item">
+
+                    <label class="check-line">
+
+                        <input type="checkbox"
+                               name="correia"
+                               value="<%= c.id %>"
+                               <%= mapLigados[c.id] ? "checked" : "" %> >
+
+                        <span><strong><%= c.nome %></strong> — <%= c.modelo || "-" %></span>
+
+                    </label>
+
+                    <input type="number"
+                           min="1"
+                           name="qtd_<%= c.id %>"
+                           value="<%= mapLigados[c.id] || 1 %>"
+                           class="qtd-input">
+
+                </div>
+
+            <% }) %>
+
         </div>
-    <% }) %>
 
-    <button class="btn-save">Salvar Correias do Equipamento</button>
+        <button class="btn-primary" style="margin-top:20px;">
+            <i class="fa-solid fa-save"></i> Salvar
+        </button>
 
-</form>
+    </form>
+
+    <div class="actions" style="margin-top:25px;">
+        <a href="/equipamentos/<%= equipamento.id %>" class="btn-secondary">
+            <i class="fa-solid fa-arrow-left"></i> Voltar
+        </a>
+    </div>
+
+</div>
+
+<style>
+    .correias-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .correia-item {
+        background: #f7f7f7;
+        border-radius: 10px;
+        padding: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .check-line {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+    .qtd-input {
+        width: 70px;
+        padding: 6px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+    }
+</style>
