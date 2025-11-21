@@ -8,58 +8,55 @@
 
 <div class="card">
 
-    <table class="table">
-        <thead>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Usuário</th>
+            <th>Nome</th>
+            <th>Papel</th>
+            <th style="text-align:center;">Ações</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <% if (users.length === 0) { %>
             <tr>
-                <th>ID</th>
-                <th>Usuário</th>
-                <th>Nome</th>
-                <th>Papel</th>
-                <th style="text-align:center;">Ações</th>
+                <td colspan="5" class="empty">Nenhum usuário cadastrado.</td>
             </tr>
-        </thead>
+        <% } %>
 
-        <tbody>
+        <% users.forEach(u => { %>
+            <tr>
+                <td><%= u.id %></td>
+                <td><%= u.usuario %></td>
+                <td><%= u.nome %></td>
 
-            <% if (users.length === 0) { %>
-                <tr>
-                    <td colspan="5" class="empty">Nenhum usuário cadastrado.</td>
-                </tr>
-            <% } %>
+                <td>
+                    <span class="tag role-<%= u.role %>">
+                        <%= u.role %>
+                    </span>
+                </td>
 
-            <% users.forEach(u => { %>
-                <tr>
-                    <td><%= u.id %></td>
-                    <td><%= u.usuario %></td>
-                    <td><%= u.nome %></td>
+                <td class="actions">
 
-                    <td>
-                        <% if (u.role === "admin") { %>
-                            <span class="tag admin">Administrador</span>
-                        <% } else if (u.role === "funcionario") { %>
-                            <span class="tag funcionario">Funcionário</span>
-                        <% } else { %>
-                            <span class="tag operador">Operador</span>
-                        <% } %>
-                    </td>
+                    <a href="/users/<%= u.id %>/edit" class="btn-edit">
+                        <i class="fa-solid fa-pen"></i>
+                    </a>
 
-                    <td class="actions">
-                        <a href="/users/<%= u.id %>/edit" class="btn-edit">
-                            <i class="fa-solid fa-pen"></i>
-                        </a>
+                    <form method="POST" action="/users/<%= u.id %>/delete" 
+                        onsubmit="return confirm('Excluir usuário?');">
+                        <button class="btn-delete">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </form>
 
-                        <form method="POST" action="/users/<%= u.id %>/delete"
-                              onsubmit="return confirm('Excluir usuário?');">
-                            <button class="btn-delete">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            <% }) %>
+                </td>
+            </tr>
+        <% }) %>
 
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
 </div>
-
