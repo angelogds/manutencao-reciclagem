@@ -1,49 +1,94 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title><%= typeof title !== 'undefined' ? title : 'Campo do Gado' %></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="/css/style.css">
-  <script src="https://kit.fontawesome.com/65d9d7e32a.js" crossorigin="anonymous"></script>
+    <title><%= typeof title !== "undefined" ? title : "Campo do Gado" %></title>
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://kit.fontawesome.com/65d9d7e32a.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
-  <header class="topbar">
-    <button id="menuToggle" class="menu-toggle">☰</button>
-    <div class="brand">Campo do Gado</div>
-    <div class="user"><%= session?.usuario || '' %></div>
-  </header>
 
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-inner">
-      <h3 class="sidebar-title">Campo do Gado</h3>
-      <ul class="menu-list">
-        <li><a href="/" class="<%= active === 'dashboard' ? 'active' : '' %>">Dashboard</a></li>
-        <li><a href="/equipamentos" class="<%= active === 'equipamentos' ? 'active' : '' %>">Equipamentos</a></li>
-        <li><a href="/correias" class="<%= active === 'correias' ? 'active' : '' %>">Correias / Estoque</a></li>
-        <li><a href="/ordens" class="<%= active === 'ordens' ? 'active' : '' %>">Ordens</a></li>
-        <% if (session && session.role === 'admin') { %>
-          <li><a href="/users" class="<%= active === 'users' ? 'active' : '' %>">Usuários</a></li>
-        <% } %>
-        <li><a href="/logout">Sair</a></li>
-      </ul>
-    </div>
-  </aside>
+    <!-- BOTÃO HAMBÚRGUER -->
+    <button id="menuToggle" class="menu-toggle">
+        <i class="fa-solid fa-bars"></i>
+    </button>
 
-  <main class="content">
-    <% if (typeof error !== 'undefined' && error) { %>
-      <div class="alert alert-error"><%= error %></div>
-    <% } %>
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="sidebar">
 
-    <%- body %>
-  </main>
+        <div class="logo-area">
+            <img src="/img/logo.png" class="logo">
+            <h2>Campo do Gado</h2>
+        </div>
 
-  <script>
-    // toggle sidebar (mobile)
-    document.getElementById('menuToggle')?.addEventListener('click', () => {
-      document.getElementById('sidebar')?.classList.toggle('open');
-    });
-  </script>
+        <ul class="menu">
+
+            <li>
+                <a href="/" class="<%= active==='dashboard' ? 'active' : '' %>">
+                    <i class="fa-solid fa-chart-line"></i> Dashboard
+                </a>
+            </li>
+
+            <% if (session.role === 'admin' || session.role === 'funcionario') { %>
+
+            <li>
+                <a href="/equipamentos" class="<%= active==='equipamentos' ? 'active' : '' %>">
+                    <i class="fa-solid fa-truck"></i> Equipamentos
+                </a>
+            </li>
+
+            <li>
+                <a href="/correias" class="<%= active==='correias' ? 'active' : '' %>">
+                    <i class="fa-solid fa-gears"></i> Correias / Estoque
+                </a>
+            </li>
+
+            <% } %>
+
+            <li>
+                <a href="/ordens" class="<%= active==='ordens' ? 'active' : '' %>">
+                    <i class="fa-solid fa-list-check"></i> Ordens
+                </a>
+            </li>
+
+            <% if (session.role === 'admin') { %>
+            <li>
+                <a href="/users" class="<%= active==='users' ? 'active' : '' %>">
+                    <i class="fa-solid fa-users"></i> Usuários
+                </a>
+            </li>
+            <% } %>
+
+            <li>
+                <a href="/logout">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sair
+                </a>
+            </li>
+
+        </ul>
+    </aside>
+
+    <!-- CONTEÚDO -->
+    <main id="mainContent" class="main-content">
+        <%- body %>
+    </main>
+
+
+<script>
+    // MENU HAMBÚRGUER
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    const content = document.getElementById('mainContent');
+
+    menuToggle.onclick = () => {
+        sidebar.classList.toggle('open');
+        content.classList.toggle('menu-open');
+    };
+</script>
+
 </body>
 </html>
