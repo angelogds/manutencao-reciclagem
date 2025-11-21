@@ -462,3 +462,96 @@ canvas {
         margin-top: 10px;
     }
 }
+/* Container dos botões */
+.top-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.btn-add {
+    background: #0b3d20;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.btn-add:hover {
+    background: #0e522b;
+}
+
+/* Tabela padrão moderna */
+.table-card {
+    padding: 0;
+}
+
+.table-modern {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-modern thead {
+    background: #0b3d20;
+    color: #fff;
+}
+
+.table-modern th, .table-modern td {
+    padding: 12px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.table-modern tbody tr:hover {
+    background: #f2f7f3;
+}
+
+/* Status */
+.status-danger {
+    background: #b30000;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.status-ok {
+    background: #0b3d20;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+/* Botões da tabela */
+.acoes-col {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-table-edit,
+.btn-table-del {
+    border: none;
+    padding: 8px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.btn-table-edit {
+    background: #1b5e20;
+}
+
+.btn-table-del {
+    background: #b71c1c;
+}
+
+.btn-table-edit:hover {
+    background: #2e7d32;
+}
+
+.btn-table-del:hover {
+    background: #d32f2f;
+}
