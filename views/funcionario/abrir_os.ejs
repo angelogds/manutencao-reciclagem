@@ -1,1 +1,39 @@
-<h1>Abrir OS Funcionário</h1>
+<% layout('layout', { title: "Abrir OS", active: "abrir_os" }) %>
+
+<h1 class="page-title"><i class="fa-solid fa-plus"></i> Abrir Ordem de Serviço</h1>
+
+<div class="card">
+  <form method="POST" action="/ordens" enctype="multipart/form-data" class="form-card">
+    <div class="form-grid">
+      <div>
+        <label>Equipamento</label>
+        <select name="equipamento_id">
+          <option value="">— Sem equipamento —</option>
+          <% equipamentos.forEach(eq => { %>
+            <option value="<%= eq.id %>" <%= (req.query.equipamento_id==eq.id) ? 'selected' : '' %>><%= eq.nome %></option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div>
+        <label>Tipo</label>
+        <input name="tipo" required placeholder="Ex: Preventiva / Corretiva">
+      </div>
+
+      <div style="grid-column:1 / -1;">
+        <label>Descrição do problema</label>
+        <textarea name="descricao" rows="5" required></textarea>
+      </div>
+
+      <div style="grid-column:1 / -1;">
+        <label>Fotos (opcional)</label>
+        <input type="file" name="fotos" accept="image/*" multiple>
+      </div>
+    </div>
+
+    <div style="margin-top:12px;">
+      <button class="btn-primary">Abrir OS</button>
+      <a href="/ordens" class="btn-primary" style="background:#777; margin-left:8px;">Cancelar</a>
+    </div>
+  </form>
+</div>
