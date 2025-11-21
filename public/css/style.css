@@ -505,3 +505,27 @@ input, select, textarea {
         display: none;
     }
 }
+.acoes-col {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.btn-sm {
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    font-size: 14px;
+}
+
+.btn-edit   { background:#1b7f42; }
+.btn-qr     { background:#0c6f52; }
+.btn-history{ background:#b88a00; }
+.btn-delete { background:#c22; }
+
+.btn-edit:hover   { background:#145e30; }
+.btn-qr:hover     { background:#0a5c44; }
+.btn-history:hover{ background:#8a6900; }
+.btn-delete:hover { background:#a00; }
