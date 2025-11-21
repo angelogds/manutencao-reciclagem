@@ -1,32 +1,56 @@
-<h1 class="page-title">Estoque de Correias</h1>
+<% layout('layout', { title: 'Correias / Estoque', active: 'correias' }) %>
 
-<a href="/correias/novo" class="btn-add">+ Nova Correia</a>
+<h1 class="page-title">Correias / Estoque</h1>
 
-<table class="tabela">
-    <tr>
-        <th>ID</th>
-        <th>Nome</th>
-        <th>Modelo</th>
-        <th>Medida</th>
-        <th>Qtd</th>
-        <th>Ações</th>
-    </tr>
+<div class="top-actions">
+    <a href="/correias/novo" class="btn-add">
+        <i class="fa-solid fa-plus"></i> Nova Correia
+    </a>
+</div>
 
-    <% correias.forEach(c => { %>
-        <tr>
-            <td><%= c.id %></td>
-            <td><%= c.nome %></td>
-            <td><%= c.modelo || '-' %></td>
-            <td><%= c.medida || '-' %></td>
-            <td><%= c.quantidade %></td>
-            <td>
-                <a href="/correias/<%= c.id %>/editar" class="btn-edit">Editar</a>
+<div class="card table-card">
 
-                <form method="POST" action="/correias/<%= c.id %>/delete"
-                      style="display:inline" onsubmit="return confirm('Excluir correia?')">
-                    <button class="btn-del">Excluir</button>
-                </form>
-            </td>
-        </tr>
-    <% }) %>
-</table>
+    <table class="table-modern">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Modelo</th>
+                <th>Medida</th>
+                <th>Quantidade</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% correias.forEach(c => { %>
+                <tr>
+                    <td><%= c.id %></td>
+                    <td><%= c.nome %></td>
+                    <td><%= c.modelo || '-' %></td>
+                    <td><%= c.medida || '-' %></td>
+                    <td>
+                        <% if (c.quantidade <= 0) { %>
+                            <span class="status-danger">Sem estoque</span>
+                        <% } else { %>
+                            <span class="status-ok"><%= c.quantidade %></span>
+                        <% } %>
+                    </td>
+                    <td class="acoes-col">
+                        <a href="/correias/<%= c.id %>/editar" class="btn-table-edit">
+                            <i class="fa-solid fa-pen"></i>
+                        </a>
+
+                        <form method="POST" action="/correias/<%= c.id %>/delete"
+                              onsubmit="return confirm('Deseja realmente excluir esta correia?')">
+                            <button class="btn-table-del">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+</div>
