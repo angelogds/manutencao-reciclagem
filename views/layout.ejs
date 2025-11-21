@@ -1,99 +1,49 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Campo do Gado</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title><%= typeof title !== 'undefined' ? title : 'Campo do Gado' %></title>
 
-    <link rel="stylesheet" href="/css/style.css">
-    <script src="https://kit.fontawesome.com/65d9d7e32a.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://kit.fontawesome.com/65d9d7e32a.js" crossorigin="anonymous"></script>
 </head>
 <body>
+  <header class="topbar">
+    <button id="menuToggle" class="menu-toggle">☰</button>
+    <div class="brand">Campo do Gado</div>
+    <div class="user"><%= session?.usuario || '' %></div>
+  </header>
 
-    <!-- NAVBAR SUPERIOR -->
-    <header class="topbar">
-        <button class="menu-btn" onclick="toggleMenu()">
-            <i class="fa-solid fa-bars"></i>
-        </button>
-
-        <h1 class="top-title">Campo do Gado</h1>
-
-        <div class="user-info">
-            <i class="fa-solid fa-user"></i> <%= session.usuario %>
-        </div>
-    </header>
-
-   <!-- MENU LATERAL MODERNO -->
-<aside class="sidebar">
-
-    <div class="sidebar-header">
-        <i class="fa-solid fa-recycle logo-icone"></i>
-        <span class="logo-text">Campo do Gado</span>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-inner">
+      <h3 class="sidebar-title">Campo do Gado</h3>
+      <ul class="menu-list">
+        <li><a href="/" class="<%= active === 'dashboard' ? 'active' : '' %>">Dashboard</a></li>
+        <li><a href="/equipamentos" class="<%= active === 'equipamentos' ? 'active' : '' %>">Equipamentos</a></li>
+        <li><a href="/correias" class="<%= active === 'correias' ? 'active' : '' %>">Correias / Estoque</a></li>
+        <li><a href="/ordens" class="<%= active === 'ordens' ? 'active' : '' %>">Ordens</a></li>
+        <% if (session && session.role === 'admin') { %>
+          <li><a href="/users" class="<%= active === 'users' ? 'active' : '' %>">Usuários</a></li>
+        <% } %>
+        <li><a href="/logout">Sair</a></li>
+      </ul>
     </div>
+  </aside>
 
-    <ul class="menu-list">
-        <li>
-            <a href="/" class="<%= active === 'dashboard' ? 'active' : '' %>">
-                <i class="fa-solid fa-gauge"></i>
-                Dashboard
-            </a>
-        </li>
+  <main class="content">
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="alert alert-error"><%= error %></div>
+    <% } %>
 
-        <% if (session.role === 'admin' || session.role === 'funcionario') { %>
-            <li>
-                <a href="/equipamentos" class="<%= active === 'equipamentos' ? 'active' : '' %>">
-                    <i class="fa-solid fa-truck"></i>
-                    Equipamentos
-                </a>
-            </li>
+    <%- body %>
+  </main>
 
-            <li>
-                <a href="/correias" class="<%= active === 'correias' ? 'active' : '' %>">
-                    <i class="fa-solid fa-gears"></i>
-                    Correias / Estoque
-                </a>
-            </li>
-        <% } %>
-
-        <li>
-            <a href="/ordens" class="<%= active === 'ordens' ? 'active' : '' %>">
-                <i class="fa-solid fa-list-check"></i>
-                Ordens
-            </a>
-        </li>
-
-        <% if (session.role === 'admin') { %>
-        <li>
-            <a href="/users" class="<%= active === 'users' ? 'active' : '' %>">
-                <i class="fa-solid fa-users"></i>
-                Usuários
-            </a>
-        </li>
-        <% } %>
-
-        <li>
-            <a href="/logout">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Sair
-            </a>
-        </li>
-    </ul>
-
-</aside>
-
-
-    </nav>
-
-    <!-- ÁREA DE CONTEÚDO -->
-    <main class="content">
-        <%- body %>
-    </main>
-
-<script>
-function toggleMenu() {
-    document.getElementById("sidebar").classList.toggle("open");
-}
-</script>
-
+  <script>
+    // toggle sidebar (mobile)
+    document.getElementById('menuToggle')?.addEventListener('click', () => {
+      document.getElementById('sidebar')?.classList.toggle('open');
+    });
+  </script>
 </body>
 </html>
