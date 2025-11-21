@@ -675,3 +675,64 @@ canvas {
 .table-card {
     margin-bottom: 25px;
 }
+.form-card {
+    padding: 25px;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+}
+
+@media(min-width: 700px) {
+    .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+label {
+    font-weight: 600;
+    color: #124d2b;
+    margin-bottom: 4px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #cfe4d6;
+    background: #f5fff7;
+    outline: none;
+}
+
+.input-disabled {
+    background: #efefef;
+}
+
+.btn-primary {
+    background: #1b7f42;
+    border: none;
+    padding: 12px 18px;
+    font-size: 15px;
+    color: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.btn-primary:hover {
+    background: #155f32;
+}
+
+.alert-error {
+    padding: 10px;
+    border-radius: 8px;
+    background: #ffdddd;
+    color: #a30000;
+    margin-bottom: 15px;
+}
+
